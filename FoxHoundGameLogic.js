@@ -192,16 +192,83 @@ function isFoxMoveLegal(board, row, col, DeltaFromF, DeltaToF)
 //The Foxes win conditions are easy we find his position using a for loop to search through the entire board
 //find his position and check if he is in one of 4 hound places I can use a switch statement for this can this returns the winner
 
-function getWinnerFox(board){
+
+// Here we can see the row and col of an Char value we input
+	function getposForFoxOrHound(board, char) {
+	    var i, j, collection = [];
+	    for (i = 0; i < board.length; i++) {
+	      for (j = 0; j < board[i].length; j++) {
+	        if(board[i][j] == char) {
+	            collection.push({row:i, col:j});
+	        }
+	      }
+	    }
+	    return collection;
+	  }
 
 
-    for (i = 0; i < 3; i++) {
-      for (j = 0; j < 3; j++) {
-        var cell = board[i][j];
-        boardString += (cell === '' ? ' ' : cell);
+	function getChar(board, c) {
+	    var i, j, collection = [];
+	    for (i = 0; i < board.length; i++) {
+	      for (j = 0; j < board[i].length; j++) {
+	        if(board[i][j] == c)
+	            collection.push({row:i, col:j});
+	      }
+	    }
+	    return collection;
+	}
+
+
+	// to see the winner we need to check where all of our elements are
+	function getWinner(board, DeltaFromF, DeltaFromHA, DeltaFromHB, DeltaFromHC, DeltaFromHD)
+
+	{
+
+		getChar(board, 'F');
+		getChar(board, 'H');
+
+	//fox is the winner if his delta from matches any H position on the board
+
+	if (DeltaFromF= 'H'){
+		return "Fox is the Winner";
+	}
+
+	//Fox wins if the hounds delta from
+	else if ((DeltaFromHA = board[7][0])
+			&& (DeltaFromHB = board[7][2])
+			&& (DeltaFromHC = board[7][4])
+			&& (DeltaFromHD = board[7][6]))
+	{
+
+		return "Fox is the Winner because the hounds are stuck";
+	}
+
+	else return "The fox is not the winner...yet!";
+
+
+	}
+
+
+	 function createMove(board, row, col, turnIndexBeforeMove) {
+		    var boardAfterMove = copyObject(board);
+		    boardAfterMove[row][col] = turnIndexBeforeMove === 0 ? 'F' : 'H';
+		    var winner = getWinner(boardAfterMove);
+		    var firstOperation;
+
+
+		      // Game continues. Now it's the opponent's turn (the turn switches from 0 to 1 and 1 to 0).
+		      firstOperation = {setTurn: {turnIndex: 1 - turnIndexBeforeMove}};
+
+
+
+		    return [firstOperation,
+		            {set: {key: 'board', value: boardAfterMove}},
+		            {set: {key: 'delta', value: {row: row, col: col}}}];
+		  }
 
 
 
 
 
-}
+
+})();
