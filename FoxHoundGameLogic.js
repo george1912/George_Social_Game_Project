@@ -266,8 +266,73 @@ function isFoxMoveLegal(board, row, col, DeltaFromF, DeltaToF)
 		            {set: {key: 'delta', value: {row: row, col: col}}}];
 		  }
 
+//We need to have an isMoveOkFunction:
+
+	 function isMoveOk(params) {
+		    var move = params.move;
+		    var turnIndexBeforeMove = params.turnIndexBeforeMove;
+		    var stateBeforeMove = params.stateBeforeMove;
+		    // The state and turn after move are not needed in TicTacToe (or in any game where all state is public).
+		    //var turnIndexAfterMove = params.turnIndexAfterMove;
+		    //var stateAfterMove = params.stateAfterMove;
+
+		    // We can assume that turnIndexBeforeMove and stateBeforeMove are legal, and we need
+		    // to verify that move is legal.
+		    try {
+		        // Example move:
+		        // [{setTurn: {turnIndex : 1},
+		        //  {set: {key: 'board', value: [['X', '', ''], ['', '', ''], ['', '', '']]}},
+		        //  {set: {key: 'delta', value: {row: 0, col: 0}}}]
+		        var deltaValue = move[2].set.value;
+		        var row = deltaValue.row;
+		        var col = deltaValue.col;
+		        var board = stateBeforeMove.board;
+		        if (board === undefined) {
+		          // Initially (at the beginning of the match), stateBeforeMove is {}.
+		          board = [['', '', ''], ['', '', ''], ['', '', '']];
+		        }
+		        // One can only make a move in an empty position
+		        if (board[row][col] !== '') {
+		          return false;
+		        }
+		        var expectedMove = createMove(board, row, col, turnIndexBeforeMove);
+		        if (!isEqual(move, expectedMove)) {
+		          return false;
+		        }
+		      } catch (e) {
+		        // if there are any exceptions then the move is illegal
+		        return false;
+		      }
+		      return true;
+		    }
 
 
+
+
+	 // "Manual testing" --- expected result is [true, true, true, false].
+	  console.log(
+	    [ // Check placing X in 0x0 from initial state.
+	      isMoveOk({turnIndexBeforeMove: 0, stateBeforeMove: {},
+	        move: [{setTurn: {turnIndex : 1}},
+	          {set: {key: 'board', value: []}},
+	          {set: {key: 'delta', value: {row: 0, col: 0}}}]}),
+	      // Check placing O in 0x1 from previous state.
+	      isMoveOk({turnIndexBeforeMove: 1,
+	        stateBeforeMove: {board: [], delta: {row: 0, col: 0}},
+	        move: [{setTurn: {turnIndex : 0}},
+	          {set: {key: 'board', value: []}},
+	          {set: {key: 'delta', value: {row: 0, col: 1}}}]}),
+	      // Check end game where X wins.
+	      isMoveOk({turnIndexBeforeMove: 0,
+	        stateBeforeMove: {board: [], delta: {row: 1, col: 1}},
+	        move: [{endMatch: {endMatchScores: [1, 0]}},
+	          {set: {key: 'board', value: []}},
+	          {set: {key: 'delta', value: {row: 2, col: 0}}}]}),
+	      // Checking an illegal move.
+	      isMoveOk({turnIndexBeforeMove: 0, stateBeforeMove: {}, move: [{setTurn: {turnIndex : 0}}]})
+	    ]);
+
+	  return isMoveOk;
 
 
 
