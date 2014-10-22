@@ -1,0 +1,6 @@
+sed '/<tr>/,/</table>/d' senate_polls.html > output.txt
+
+
+sed '/^<tr>/ d'
+
+sed '/^<tr>,/d;/^</tr>,/d'/^"small-state-header",/d'; senate_polls.html
