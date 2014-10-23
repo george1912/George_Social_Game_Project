@@ -1,189 +1,110 @@
 'use strict';
 
-// TODO: remove stateService before launching the game.
-angular.module('myApp',
-    ['myApp.messageService', 'myApp.gameLogic','myApp.scaleBodyService', 'platformApp'])
+angular.module('myApp', ['ngTouch'])
     .controller('Ctrl', function (
-        $window, $scope, $log,
-        messageService, scaleBodyService, stateService, gameLogic) {
+        $window, $scope, $log, $timeout,
+        gameService, scaleBodyService, gameLogic) {
 
+        var moveAudioB = new Audio('audio/move.mp3');
+        moveAudioB.load();
+        var moveAudioW = new Audio('audio/move1.mp3');
+        moveAudioW.load();
 
-        var isLocalTesting = $window.parent === $window;
+        function sendComputerMove(){
+            gameService.makeMove(
+                gameLogic.createComputerMove($scope.board, $scope.turnIndex));
+        }
 
         function updateUI(params) {
-            $scope.jsonState = angular.toJson(params.stateAfterMove, true);
+            // check if commented: $scope.jsonState = angular.toJson(params.stateAfterMove, true);
             $scope.board = params.stateAfterMove.board;
+            $scope.delta = params.stateAfterMove.delta;
             if ($scope.board === undefined) {
-                $scope.board =
+                $scope.board = "[['RS', 'H',  'RS', 'H',  'RS', 'H',  'RS', 'H']," +
+                    "['BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS']," +
+                    "['RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS']," +
+                    "['BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS'], " +
+                    "['RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS']," +
+                    "['BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS'],"+
+                    "['RS',  'BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS'],"+
+                    "['H', ' RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS']];
+            }
+            else {
+                if($scope.turnIndex === 0){
+                    moveAudioB.play();
+                }
+                else{
+                    moveAudioW.play();
+                }
+            }
 
-
-                    [['RS', 'H',  'RS', 'H',  'RS', 'H',  'RS', 'H'],
-                        ['BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS'],
-                        ['RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS'],
-                        ['BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS'],
-                        ['RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS'],
-                        ['BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS'],
-                        ['RS',  'BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS'],
-                        ['H', ' RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS']]  ;
+            $scope.isYourTurn = params.turnIndexAfterMove >= 0 && // game is ongoing
+                params.yourPlayerIndex === params.turnIndexAfterMove; //it's my turn
+            $scope.turnIndex = params.turnIndexAfterMove;
+            // Is it the computer's turn?
+            if ($scope.isYourTurn
+                && params.playersInfo[params.yourPlayerIndex].playerId === '') {
+                // Wait 500 milliseconds until animation ends.
+                $timeout(sendComputerMove, 1100);
             }
         }
 
+        updateUI({stateAfterMove: {}, turnIndexAfterMove: 0, yourPlayerIndex: -2});
 
+        $scope.cellClicked = function (row, col) {
+            $log.info(["Clicked on cell:", row, col]);
+            if (!$scope.isYourTurn) {
+                return;
+            }
 
-        $scope.isYourTurn = params.turnIndexAfterMove >= 0 && // game is ongoing
-            params.yourPlayerIndex === params.turnIndexAfterMove; //it's my turn
-        $scope.turnIndex = params.turnIndexAfterMove;
-    });
-
-
-function sendMakeMove(move) {
-    $log.info(["Making move:", move]);
-    if (isLocalTesting) {
-        stateService.makeMove(move);
-    } else {
-        messageService.sendMessage({makeMove: move});
-    }
-}
-
-
-updateUI({stateAfterMove: {}, turnIndexAfterMove: 0, yourPlayerIndex: -2});
-var game = {
-    gameDeveloperEmail: "george.ulloa1990@gmail.com",
-    minNumberOfPlayers: 2,
-    maxNumberOfPlayers: 2,
-    exampleGame: gameLogic.exampleGame(),
-    riddles: gameLogic.riddles()
-};
-
-
-$scope.move = "[{setTurn: " +
-    "{turnIndex: 1}}, " +
-    "{set: " +
-    "{key: 'board', value: " +
-    "[['RS', 'H',  'RS', 'H',  'RS', 'H',  'RS', 'H']," +
-    "['BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS']," +
-    "['RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS']," +
-    "['BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS'], " +
-    "['RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS']," +
-    "['BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS'],"+
-    "['RS',  'BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS'],"+
-    "['H', ' RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS']]}}," +
-
-
-    "{set: {key: 'fox', value: {row: 7, col: 0}}}" +
-    "{set: {key: 'hound', value: [{row: 0, col: 1},{row: 0, col: 3},{row: 0, col: 5},{row: 0, col: 7}]}}" +
-    "{set: {key: 'fromDelta', value: {row: 7, col: 0}}}" +
-    "{set: {key: 'toDelta', value: {row: 6, col: 1}" +
-    "}}]";
-$scope.makeMove = function () {
-    sendMakeMove(eval($scope.move));
-};
-
-
-
-$scope.cellClicked = function (row, col) {
-    $log.info(["Clicked on cell:", row, col]);
-    if (!$scope.isYourTurn) {
-        return;
-    }
-
-    try {
-        var move = gameLogic.createMove($scope.board, row, col, $scope.turnIndex);
-        $scope.isYourTurn = false; // to prevent making another move
-        sendMakeMove(move);
-    } catch (e) {
-        $log.info(["Cell is already full in position or you have to form a sandwich!", row, col]);
-        return;
-    }
-};
-
-
-
-
-
-        $scope.makeMove = function () {
-            $log.info(["Making move:", $scope.move]);
-            var moveObj = eval($scope.move);
-            if (isLocalTesting) {
-                stateService.makeMove(moveObj);
-            } else {
-                messageService.sendMessage({makeMove: moveObj});
+            try {
+                var move = gameLogic.createMove($scope.board, row, col, $scope.turnIndex);
+                $scope.isYourTurn = false; // to prevent making another move
+                gameService.makeMove(move);
+            } catch (e) {
+                $log.info(["Cell is already full in position or you have to form a sandwich!", row, col]);
+                return;
             }
         };
 
-
-//adding here
-$scope.isFox = function (row, col) {
-    if ($scope.board[row][col] === 'F')
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-$scope.isHound = function (row, col) {
-    if ($scope.board[row][col] === 'H')
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-
-scaleBodyService.scaleBody({width: 567, height: 567});
-
-if (isLocalTesting) {
-    game.isMoveOk = gameLogic.isMoveOk;
-    game.updateUI = updateUI;
-    stateService.setGame(game);
-} else {
-    messageService.addMessageListener(function (message) {
-        if (message.isMoveOk !== undefined) {
-            var isMoveOkResult = gameLogic.isMoveOk(message.isMoveOk);
-            messageService.sendMessage({isMoveOkResult: isMoveOkResult});
-        } else if (message.updateUI !== undefined) {
-            updateUI(message.updateUI);
+        $scope.shouldSlowlyAppear = function (row, col) {
+            return $scope.delta !== undefined
+                && $scope.delta.row === row && $scope.delta.col === col;
         }
+
+        $scope.isFox = function (row, col) {
+            if ($scope.board[row][col] === 'F')
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        $scope.isHound = function (row, col) {
+            if ($scope.board[row][col] === 'B')
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+
+        scaleBodyService.scaleBody({width: 567, height: 567});
+
+        gameService.setGame({
+            gameDeveloperEmail: "purnima.p01@gmail.com",
+            minNumberOfPlayers: 2,
+            maxNumberOfPlayers: 2,
+            exampleGame: gameLogic.exampleGame(),
+            riddles: gameLogic.riddles(),
+            isMoveOk: gameLogic.isMoveOk,
+            updateUI: updateUI
+        });
     });
-    messageService.sendMessage({gameReady : game});
-
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,5 +1,5 @@
 //Same file as in HW #4
-
+//ON GOING FOR 6 Errors
 'use strict';
 
 // TODO: remove stateService before launching the game.
