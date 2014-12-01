@@ -1,13 +1,13 @@
 
 describe("In FoxHoundGameLogic", function() {
     function expectMoveOk(turnIndexBeforeMove, stateBeforeMove, move) {
-        expect(FoxHoundGameLogicV3.isMoveOk({turnIndexBeforeMove: turnIndexBeforeMove,
+        expect(FoxHoundGameLogic.isMoveOk({turnIndexBeforeMove: turnIndexBeforeMove,
             stateBeforeMove: stateBeforeMove,
             move: move})).toBe(true);
     }
 
     function expectIllegalMove(turnIndexBeforeMove, stateBeforeMove, move) {
-        expect(FoxHoundGameLogicV3.isMoveOk({turnIndexBeforeMove: turnIndexBeforeMove,
+        expect(FoxHoundGameLogic.isMoveOk({turnIndexBeforeMove: turnIndexBeforeMove,
             stateBeforeMove: stateBeforeMove,
             move: move})).toBe(false);
     }
