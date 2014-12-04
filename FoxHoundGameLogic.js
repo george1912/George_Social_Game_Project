@@ -1,4 +1,4 @@
-/*jslint devel: true, indent: 2 */
+/*This is a new edit to view */
 /*global console */
 
 var FoxHoundGameLogic = (function () {
@@ -55,8 +55,8 @@ var FoxHoundGameLogic = (function () {
             return false;
     }
 
-/*do I need this? */
-    if (isLegalMove) {
+/*do I need this?
+    /*if (isLegalMove) {
         var firstOperation;
         board[toDelta.row][toDelta.col] === board[fromDelta.row][fromDelta.col];
 
@@ -64,7 +64,7 @@ var FoxHoundGameLogic = (function () {
             board[fromDelta.row][fromDelta.col] === 'F' ||
             board[fromDelta.row][fromDelta.col] === 'H'; //not legal not to board[fromDelta.row][fromDelta.col]=== H|| board[fromDelta.row][fromDelta.col=== F
 
-    }
+    }*/
 
 
 
@@ -82,10 +82,10 @@ var FoxHoundGameLogic = (function () {
         //if the fox is in the top corners he will win
 
 
-        /*insert board*/
+        /*How do I insert board*/
 
 
-        /*Is this particular function correct? */
+
         if (fox == {row: 0, col: 1} || fox == {row: 0, col: 3} || fox === {row: 0, col: 5} || fox === {row: 0, col: 7}) {
             return 'F';
         }
