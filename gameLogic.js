@@ -1,8 +1,6 @@
-/*This is a new edit to view */
-/*global console */
+'use strict';
 
-var gameLogic = (function () {
-    'use strict';
+angular.module('myApp.gameLogic', []).service('gameLogic', function() {
 
     function isEqual(object1, object2) {
         return JSON.stringify(object1) === JSON.stringify(object2);
@@ -15,7 +13,7 @@ var gameLogic = (function () {
 
 
     function copyObject(object) {
-        return JSON.parse(JSON.stringify(object));
+        return angular.copy(object);
     }
 
 /*optional functions */
@@ -251,14 +249,27 @@ var gameLogic = (function () {
             //cant use this, at all
             var move = createMove(state.board, rowColComment.row, rowColComment.col, foxPos.fox, houndPos.hound, turnIndex);
 
+            //HW#4 add
+            var stateAfterMove = {board : move[1].set.value, delta: move[2].set.value};
+
             exampleMoves.push({
                 stateBeforeMove: state,
+                //Hw#4 Adding
+                stateAfterMove: stateAfterMove,
                 turnIndexBeforeMove: turnIndex,
+                //HW4 adding
+                turnIndexAfterMove: 1 - turnIndex,
+
                 move: move,
                 comment: {en: rowColComment.comment}});
 
+            //HW#4
+            state = stateAfterMove;
+
             //NOTE CHANGES HERE
-            state = {board: move[1].set.value, fox: move[2].set.value, hound: move[3].set.value, fromDelta: move[4].set.value, toDelta: move[5].set.value};
+            //state = {board: move[1].set.value, fox: move[2].set.value, hound: move[3].set.value, fromDelta: move[4].set.value, toDelta: move[5].set.value};
+
+
             turnIndex = 1 - turnIndex;
         }
         return exampleMoves;
@@ -418,8 +429,14 @@ var gameLogic = (function () {
         }
         return true;
     }
+    //hw#4
+    this.isMoveOk = isMoveOk;
+    this.getExampleGame = getExampleGame;
+    this.getRiddles = getRiddles;
 
-    return {isMoveOk: isMoveOk, getExampleGame: getExampleGame, getRiddles: getRiddles};
+});
+
+    //return {isMoveOk: isMoveOk, getExampleGame: getExampleGame, getRiddles: getRiddles};
 
 
 
@@ -427,4 +444,4 @@ var gameLogic = (function () {
 
 
 
-})();
+//})();
