@@ -1,13 +1,13 @@
 
-describe("In FoxHoundGameLogic", function() {
+describe("In gameLogic", function() {
     function expectMoveOk(turnIndexBeforeMove, stateBeforeMove, move) {
-        expect(FoxHoundGameLogic.isMoveOk({turnIndexBeforeMove: turnIndexBeforeMove,
+        expect(gameLogic.isMoveOk({turnIndexBeforeMove: turnIndexBeforeMove,
             stateBeforeMove: stateBeforeMove,
             move: move})).toBe(true);
     }
 
     function expectIllegalMove(turnIndexBeforeMove, stateBeforeMove, move) {
-        expect(FoxHoundGameLogic.isMoveOk({turnIndexBeforeMove: turnIndexBeforeMove,
+        expect(gameLogic.isMoveOk({turnIndexBeforeMove: turnIndexBeforeMove,
             stateBeforeMove: stateBeforeMove,
             move: move})).toBe(false);
     }
@@ -259,13 +259,13 @@ describe("In FoxHoundGameLogic", function() {
     }
 
     it("getExampleGame returns a legal history and the last move ends the game", function() {
-        var exampleGame = FoxHoundGameLogic.getExampleGame();
+        var exampleGame = gameLogic.getExampleGame();
         expect(exampleGame.length).toBe(18);
         expectLegalHistoryThatEndsTheGame(exampleGame);
     });
 
     it("getRiddles returns legal histories where the last move ends the game", function() {
-        var riddles = FoxHoundGameLogic.getRiddles();
+        var riddles = gameLogic.getRiddles();
         expect(riddles.length).toBe(2);
         for (var i = 0; i < riddles.length; i++) {
             expectLegalHistoryThatEndsTheGame(riddles[i]);

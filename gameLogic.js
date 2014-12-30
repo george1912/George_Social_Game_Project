@@ -1,7 +1,7 @@
 /*This is a new edit to view */
 /*global console */
 
-var FoxHoundGameLogic = (function () {
+var gameLogic = (function () {
     'use strict';
 
     function isEqual(object1, object2) {
