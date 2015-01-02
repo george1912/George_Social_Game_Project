@@ -1,5 +1,7 @@
+//added for HW#4
 'use strict';
 
+//added for hw#4
 angular.module('myApp.gameLogic', []).service('gameLogic', function() {
 
     function isEqual(object1, object2) {
@@ -13,6 +15,7 @@ angular.module('myApp.gameLogic', []).service('gameLogic', function() {
 
 
     function copyObject(object) {
+        //added for hw#4
         return angular.copy(object);
     }
 
@@ -81,6 +84,7 @@ angular.module('myApp.gameLogic', []).service('gameLogic', function() {
 
 
         /*How do I insert board*/
+        //insert this board
 
 
 
@@ -249,15 +253,17 @@ angular.module('myApp.gameLogic', []).service('gameLogic', function() {
             //cant use this, at all
             var move = createMove(state.board, rowColComment.row, rowColComment.col, foxPos.fox, houndPos.hound, turnIndex);
 
-            //HW#4 add
+            //added for hw#4
             var stateAfterMove = {board : move[1].set.value, delta: move[2].set.value};
 
             exampleMoves.push({
                 stateBeforeMove: state,
-                //Hw#4 Adding
+                //added for hw#4
+
                 stateAfterMove: stateAfterMove,
                 turnIndexBeforeMove: turnIndex,
-                //HW4 adding
+
+                //added for hw#4
                 turnIndexAfterMove: 1 - turnIndex,
 
                 move: move,
@@ -429,7 +435,7 @@ angular.module('myApp.gameLogic', []).service('gameLogic', function() {
         }
         return true;
     }
-    //hw#4
+    //added for hw#4
     this.isMoveOk = isMoveOk;
     this.getExampleGame = getExampleGame;
     this.getRiddles = getRiddles;
