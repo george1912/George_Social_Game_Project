@@ -4,6 +4,11 @@
 //added for hw#4
 angular.module('myApp.gameLogic', []).service('gameLogic', function() {
 
+    //added in code for rows
+    //highest level rows can go
+    var row = 7;
+    var col = 7;
+
     function isEqual(object1, object2) {
         return JSON.stringify(object1) === JSON.stringify(object2);
     }
@@ -11,7 +16,7 @@ angular.module('myApp.gameLogic', []).service('gameLogic', function() {
 
     /*if (typeof object1 != 'object' && typeof object2 != 'object') {*/
     /*return object1 == object2;*/
-     /* }*/
+    /* }*/
 
 
     function copyObject(object) {
@@ -19,26 +24,40 @@ angular.module('myApp.gameLogic', []).service('gameLogic', function() {
         return angular.copy(object);
     }
 
-/*optional functions */
-    function isEmptyBlackSquare(toDelta, board) {
 
-        var row = toDelta.row,
-            col = toDelta.col;
-        board = board [row][col]
+    /*optional functions */
+//how do I improve this
+    //function isEmptyBlackSquare(toDelta, board) {
 
-        if (board === 'BS') {
+    //board = board [row][col]
+
+    //if (board === 'BS') {
+    //return true;
+    //}
+    //else {
+    //return false;
+    //}
+    //}
+
+
+
+    //added in function for a new empty square
+    function isEmptySquare(coordinates) {
+        if (coordinates.board [coordinates.row][coordinates.col] === '') {
             return true;
         }
-        else {
-            return false;
-        }
-
+        return false;
     }
 
+
+
+
+    //need to call this function
     function isLegalMove(board, fromDelta, toDelta) {
 
         var square = board[fromDelta.row][fromDelta.col];
 
+        //need to call this function
         if (getKind(square) === 'F') {
             // If it's a fox, it can move both forward and backward
             if ((Math.abs(fromDelta.row - toDelta.row) === 1)
@@ -56,35 +75,36 @@ angular.module('myApp.gameLogic', []).service('gameLogic', function() {
             return false;
     }
 
-/*do I need this?
-    /*if (isLegalMove) {
-        var firstOperation;
-        board[toDelta.row][toDelta.col] === board[fromDelta.row][fromDelta.col];
+    /*do I need this?
+     /*if (isLegalMove) {
+     var firstOperation;
+     board[toDelta.row][toDelta.col] === board[fromDelta.row][fromDelta.col];
 
-        board[fromDelta.row][fromDelta.col] === 'BS' ||
-            board[fromDelta.row][fromDelta.col] === 'F' ||
-            board[fromDelta.row][fromDelta.col] === 'H'; //not legal not to board[fromDelta.row][fromDelta.col]=== H|| board[fromDelta.row][fromDelta.col=== F
+     board[fromDelta.row][fromDelta.col] === 'BS' ||
+     board[fromDelta.row][fromDelta.col] === 'F' ||
+     board[fromDelta.row][fromDelta.col] === 'H'; //not legal not to board[fromDelta.row][fromDelta.col]=== H|| board[fromDelta.row][fromDelta.col=== F
 
-    }*/
-
-
-
-
-
-
-
-
-
-
+     }*/
     /*core functions*/
     /*get move function */
 
     function getWinner(board, fox, hound) {
+
         //if the fox is in the top corners he will win
-
-
         /*How do I insert board*/
         //insert this board
+        //I have inserted the board
+        for (var i = 0; i <= row; i ++) {
+            for (var j = 0; j <= col; j ++) {
+                if (board[i][j] === 'F') {
+                    return 'F';
+                }
+                else if (board[i][j] === 'H') {
+                    return 'H';
+                }
+            }
+        }
+
 
 
 
@@ -213,7 +233,7 @@ angular.module('myApp.gameLogic', []).service('gameLogic', function() {
         /*create move sub variables */
         var boardAfterMove = copyObject(board);
         boardAfterMove[toDelta.row][toDelta.col] = turnIndexBeforeMove === 0 ? 'F' : 'H';
-        boardAfterMove[fromDelta.row][fromeDelta.col] = 'BS';
+        boardAfterMove[fromDelta.row][fromDelta.col] = 'BS';
         var winner = getWinner(boardAfterMove);
         var firstOperation;
 
@@ -243,6 +263,7 @@ angular.module('myApp.gameLogic', []).service('gameLogic', function() {
 
     /*function getExample Moves */
 
+    /*
     function getExampleMoves(initialTurnIndex, initialState, arrayOfRowColComment) {
         var exampleMoves = [];
         var state = initialState;
@@ -279,7 +300,48 @@ angular.module('myApp.gameLogic', []).service('gameLogic', function() {
             turnIndex = 1 - turnIndex;
         }
         return exampleMoves;
+    }*/
+
+
+
+    //improved getExampleMoves
+    function getExampleMoves(initTurnIndex, initState, arrayOfRowColComment) {
+        var state = initState;
+        var temp;
+        var store = [];
+        var turnIndex = initTurnIndex;
+
+        for (var i = 0; i < arrayOfRowColComment.length; i ++) {
+            var rowColComment = arrayOfRowColComment[i];
+
+            temp = createMove(state.board, rowColComment.row,
+                rowColComment.col, turnIndex);
+
+            var stateAfterMove = {board: temp[1].set.value, delta: temp[2].set.value};
+            store.push({stateBeforeMove: state,
+                stateAfterMove: stateAfterMove,
+                turnIndexBeforeMove: turnIndex,
+                turnIndexAfterMove: temp[0].setTurn.turnIndex,
+                comment: {en: rowColComment.comment},
+                move: temp});
+            turnIndex = temp[0].setTurn.turnIndex;
+            state = stateAfterMove;
+        }
+        return store;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -442,7 +504,7 @@ angular.module('myApp.gameLogic', []).service('gameLogic', function() {
 
 });
 
-    //return {isMoveOk: isMoveOk, getExampleGame: getExampleGame, getRiddles: getRiddles};
+//return {isMoveOk: isMoveOk, getExampleGame: getExampleGame, getRiddles: getRiddles};
 
 
 

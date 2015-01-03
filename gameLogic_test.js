@@ -1,21 +1,22 @@
+describe("In Foxhound ", function() {
+    function expectedMove (turnIndexBeforeMove, stateBeforeMove, move) {
 
-describe("In gameLogic", function() {
-    function expectMoveOk(turnIndexBeforeMove, stateBeforeMove, move) {
-        expect(gameLogic.isMoveOk({turnIndexBeforeMove: turnIndexBeforeMove,
-            stateBeforeMove: stateBeforeMove,
-            move: move})).toBe(true);
+        expect(isMoveOk.isMoveOk({turnIndexBeforeMove: turnIndexBeforeMove,
+            stateBeforeMove: stateBeforeMove, move: move})).toBe(true);
     }
 
     function expectIllegalMove(turnIndexBeforeMove, stateBeforeMove, move) {
-        expect(gameLogic.isMoveOk({turnIndexBeforeMove: turnIndexBeforeMove,
+        expect(isMoveOk.isMoveOk({turnIndexBeforeMove: turnIndexBeforeMove,
             stateBeforeMove: stateBeforeMove,
             move: move})).toBe(false);
     }
 
 
+
+
 //P1: Fox Moves to the right//
     it("Moving fox forward one one space to the right", function() {
-        expectMoveOk(0, {},
+        expectedMove (0, {},
             [{setTurn: {turnIndex : 1}},
 
                 {set: {key: 'board', value:
@@ -43,7 +44,7 @@ describe("In gameLogic", function() {
 //P2: Hound Moves down to the right//
 
     it("Moving hound after fox has moved forward", function() {
-        expectMoveOk(1,
+        expectedMove (1,
             {board: [
                 ['RS', 'H', 'RS', 'H', 'RS', 'H', 'RS', 'H'],
                 ['BS', 'RS', 'BS', 'RS', 'BS', 'RS', 'BS', 'RS'],
@@ -105,7 +106,7 @@ describe("In gameLogic", function() {
     //hound or fox move//
 
     it("Fox wins by moving to hound position", function() {
-        expectMoveOk(0,
+        expectedMove (0,
             {board:
 
 
@@ -162,7 +163,7 @@ describe("In gameLogic", function() {
     //this is a hound move//
 
     it("Hound wins by Trapping fox in a corner", function() {
-        expectMoveOk(1,
+        expectedMove (1,
             {board:
 
                 [   ['RS', 'H',  'RS', 'BS',  'RS', 'H',  'RS', 'H'],
@@ -251,7 +252,7 @@ describe("In gameLogic", function() {
 
     function expectLegalHistoryThatEndsTheGame(history) {
         for (var i = 0; i < history.length; i++) {
-            expectMoveOk(history[i].turnIndexBeforeMove,
+            expectedMove (history[i].turnIndexBeforeMove,
                 history[i].stateBeforeMove,
                 history[i].move);
         }
