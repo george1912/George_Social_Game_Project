@@ -38,61 +38,40 @@ angular.module('myApp.gameLogic',[]).service('gameLogic',function(){
     //there is another way for the hound to win than just reaching the end. The hound can box in the fox
     //this was code made from an earlier attempt I was looking at checking where the hound was in relation to the fox.
     //should I add them as extra string win conditionals? For example winStringLeftUp,winStringRighttUp
+
     /*
-     var checkLeftUp = function (board, row, col) {
-     var r = row - 1;
-     var c = col - 1;
-     if (r >= 0 && c >= 0) {
-     if (board[r][c] == 'hound') {
-     return true;
-     } else {
+     var checkIfBoxedIn = function (board) {
+     var isHoundHere = function(row, col){
+     return board[row][col] == 'hound'
+     }
+     }
+     for (var r = 0; r < 8; r++){
+     for (var c = 0; c < 8; c++){
+     if (board[r][c] == 'fox'){
+     // check everything around.
+     var legalPlaces = 0
+     var houndsWaiting = 0
+     if (r > 0 && c > 0) {
+     legalPlaces++
+     if isHoundHere(r-1, c-1) houndsWaiting++
+     }
+     if (r < 7 && c < 7) {
+     legalPlaces++
+     if isHoundHere(r+1, c+1) houndsWaiting++
+     }
+     if (r > 0 && c < 7) {
+     legalPlaces++
+     if isHoundHere(r-1, c+1) houndsWaiting++
+     }
+     if (r < 7 && c > 0) {
+     legalPlaces++
+     if isHoundHere(r+1, c-1) houndsWaiting++
+     }
+     return legalPlaces == houndsWaiting;
+     }
+     }
+     }
      return false;
-     }
-     } else {
-     return true;
-     }
-     }
-     var checkRightUp = function (board, row, col) {
-     var r = row - 1;
-     var c = col + 1;
-     if (r >= 0 && c < 8) {
-     if (board[r][c] == 'hound') {
-     return true;
-     } else {
-     return false;
-     }
-     } else {
-     return true;
-     }
-     }
-
-     var checkLeftDown = function (board, row, col) {
-     var r = row + 1;
-     var c = col - 1;
-     if (r < 8 && c >= 0) {
-     if (board[r][c] == 'hound') {
-     return true;
-     } else {
-     return false;
-     }
-     } else {
-     return true;
-     }
-     }
-
-     var checkRightDown = function (board, row, col) {
-     var r = row + 1;
-     var c = col + 1;
-     if (r < 8 && c < 8) {
-     if (board[r][c] == 'hound') {
-     return true;
-     } else {
-     return false;
-     }
-     } else {
-     return true;
-     }
-     }
      }
      */
 

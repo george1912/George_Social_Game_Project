@@ -29,7 +29,7 @@
 <div style="position:relative; border: 1px solid ;width :625px; height:625px">
     <div ng-repeat="row in board track by $index">
         <div ng-repeat="cell in row track by $index" ng-click="yo(board.indexOf(row),$index)" ng-style="{'position':'absolute','top':setPagePositionTop(board.indexOf(row), $index), 'left':setPagePosition($index, board.indexOf(row)) }" ng-class="{'boxShape': cell  }" >
-            <span ng-hide="cell == ''">{{ cell }} </span>
+            <span ng-hide="cell == ' '">{{ cell }} </span>
         </div>
     </div>
 </div>

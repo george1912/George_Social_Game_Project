@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d721080c-216d-470b-a547-aa51d8c17a0c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/game.js" afterPath="$PROJECT_DIR$/game.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/game.html" afterPath="$PROJECT_DIR$/game.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gameLogic.js" afterPath="$PROJECT_DIR$/gameLogic.js" />
     </list>
     <ignored path="George_Social_Game_Project.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,8 +39,8 @@
       <file leaf-file-name="updatedgameLogic.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/updatedgameLogic.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.269231" vertical-offset="1860" max-vertical-offset="4320">
-              <caret line="147" column="41" selection-start-line="140" selection-start-column="16" selection-end-line="147" selection-end-column="41" />
+            <state vertical-scroll-proportion="-23.26923" vertical-offset="385" max-vertical-offset="4320">
+              <caret line="66" column="2" selection-start-line="32" selection-start-column="3" selection-end-line="66" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -55,21 +56,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="game.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="game.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4488189" vertical-offset="0" max-vertical-offset="1560">
+            <state vertical-scroll-proportion="-5.9615383" vertical-offset="130" max-vertical-offset="1560">
               <caret line="19" column="21" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="game.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="game.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/game.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.28" vertical-offset="251" max-vertical-offset="885">
-              <caret line="31" column="36" selection-start-line="31" selection-start-column="36" selection-end-line="31" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.35785952" vertical-offset="251" max-vertical-offset="885">
+              <caret line="31" column="37" selection-start-line="31" selection-start-column="37" selection-end-line="31" selection-end-column="37" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -90,8 +91,8 @@
       <file leaf-file-name="gameLogic.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gameLogic.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-21.346153" vertical-offset="0" max-vertical-offset="5010">
-              <caret line="37" column="65" selection-start-line="37" selection-start-column="61" selection-end-line="37" selection-end-column="65" />
+            <state vertical-scroll-proportion="-4.8076925" vertical-offset="505" max-vertical-offset="4695">
+              <caret line="42" column="44" selection-start-line="42" selection-start-column="9" selection-end-line="42" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -117,12 +118,12 @@
         <option value="$PROJECT_DIR$/gamelogic.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/gameLogic_test.js" />
-        <option value="$PROJECT_DIR$/gameLogic.js" />
         <option value="$PROJECT_DIR$/messageService.js" />
         <option value="$PROJECT_DIR$/updatedgameLogic.js" />
         <option value="$PROJECT_DIR$/updatedgameLogic_tests.js" />
-        <option value="$PROJECT_DIR$/game.html" />
         <option value="$PROJECT_DIR$/game.js" />
+        <option value="$PROJECT_DIR$/gameLogic.js" />
+        <option value="$PROJECT_DIR$/game.html" />
       </list>
     </option>
   </component>
@@ -434,36 +435,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gameLogic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.346153" vertical-offset="0" max-vertical-offset="5010">
-          <caret line="37" column="65" selection-start-line="37" selection-start-column="61" selection-end-line="37" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/karma.conf.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="825">
           <caret line="18" column="55" selection-start-line="18" selection-start-column="55" selection-end-line="18" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/game.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.28" vertical-offset="251" max-vertical-offset="885">
-          <caret line="31" column="36" selection-start-line="31" selection-start-column="36" selection-end-line="31" selection-end-column="36" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/updatedgameLogic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.269231" vertical-offset="1860" max-vertical-offset="4320">
-          <caret line="147" column="41" selection-start-line="140" selection-start-column="16" selection-end-line="147" selection-end-column="41" />
           <folding />
         </state>
       </provider>
@@ -476,11 +451,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/updatedgameLogic.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-23.26923" vertical-offset="385" max-vertical-offset="4320">
+          <caret line="66" column="2" selection-start-line="32" selection-start-column="3" selection-end-line="66" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameLogic.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.8076925" vertical-offset="505" max-vertical-offset="4695">
+          <caret line="42" column="44" selection-start-line="42" selection-start-column="9" selection-end-line="42" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4488189" vertical-offset="0" max-vertical-offset="1560">
+        <state vertical-scroll-proportion="-5.9615383" vertical-offset="130" max-vertical-offset="1560">
           <caret line="19" column="21" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/game.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.35785952" vertical-offset="251" max-vertical-offset="885">
+          <caret line="31" column="37" selection-start-line="31" selection-start-column="37" selection-end-line="31" selection-end-column="37" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
