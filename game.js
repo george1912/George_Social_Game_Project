@@ -6,37 +6,7 @@ angular.module('myApp',
         $window, $scope, $log,
         messageService, stateService, gameLogic) {
 
-        $scope.yo = function($yindex, $index ) {
-            alert($yindex+ "  " +$index);
-        }
-
-        $scope.map = [
-
-
-            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-            [[1,1],[0,0],[1,2],[0,0],[1,3],[0,0],[1,4],[0,0]],
-            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-            [[0,0],[5,1],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
-
-        ];
-
-
-        $scope.newposition = 50;
-        $scope.newpositionTop = 50;
-        $scope.setPagePosition = function(index, parentIndex) {
-            //$scope.newposition = (((index - 9) * (-0.4471) - (18 - parentIndex - 9) * 0.894) +9) *20 + 'px';
-            $scope.newposition =  $scope.map[parentIndex][index][0] * 40 - 65 + 'px'
-            return $scope.newposition;
-        }
-        $scope.setPagePositionTop = function(parentIndex, index){
-            //$scope.newpositionTop = (18 - (((index - 9) * 0.894 + (18 - parentIndex - 9) * (-0.4471)) + 9)) *20 + 'px';
-            $scope.newpositionTop = $scope.map[parentIndex][index][1] * 35 -20 + 'px'
-            return $scope.newpositionTop;
-        }
+        var isLocalTesting = $window.parent === $window;
 
         function updateUI(params) {
             $scope.jsonState = angular.toJson(params.stateAfterMove, true);
@@ -53,33 +23,48 @@ angular.module('myApp',
                     ['','','','','','','','']
                 ];
             }
+
+            $scope.isYourTurn = params.turnIndexAfterMove >= 0 && // game is ongoing
+                params.yourPlayerIndex === params.turnIndexAfterMove; //it's my turn
+            $scope.turnIndex = params.turnIndexAfterMove;
         }
-        updateUI({stateAfterMove: {}});
+
+        function sendMakeMove(move) {
+            $log.info(["Making move:", move]);
+            if (isLocalTesting) {
+                stateService.makeMove(move);
+            } else {
+                messageService.sendMessage({makeMove: move});
+            }
+        }
+
+        updateUI({stateAfterMove: {}, turnIndexAfterMove: 0, yourPlayerIndex: -2});
         var game = {
-            gameDeveloperEmail: "george.ulloa1990@gmail.com",
+            gameDeveloperEmail: "purnima.p01@gmail.com",
             minNumberOfPlayers: 2,
             maxNumberOfPlayers: 2,
-            exampleGame: gameLogic.getExampleGame()
-            //riddles: gameLogic.getRiddles()
+            exampleGame: gameLogic.exampleGame(),
+            riddles: gameLogic.riddles()
         };
 
-        var isLocalTesting = $window.parent === $window;
-        $scope.move = JSON.stringify([{setTurn: {turnIndex: 1}}, {set: {key: 'board', value:[
-            ['','','','','','','',''],
-            ['H','','H','','H','','H',''],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['','F','','','','','',''],
-            ['','','','','','','','']]}}, {set: {key: 'delta', value: {oldrow: 6, oldcol: 1, row: 5, col: 0}}}]);
+        $scope.move = "[{setTurn: {turnIndex: 1}}, {set: {key: 'board', value: [['','','','','','','',''], ['','','','','','','',''], ['','','','','','','',''],['','','','','','','',''],['','','','','','','',''],['','','F','','','','',''],['','H','','','','','',''],['','','H','','H','','H','']]}}, {set: {key: 'delta', value: {oldrow: 6, oldcol: 1, row: 5, col: 0}}}]";
         $scope.makeMove = function () {
-            $log.info(["Making move:", $scope.move]);
-            var moveObj = eval($scope.move);
-            if (isLocalTesting) {
-                stateService.makeMove(moveObj);
-            } else {
-                messageService.sendMessage({makeMove: moveObj});
+            sendMakeMove(eval($scope.move));
+        };
+
+        $scope.cellClicked = function (row, col) {
+            $log.info(["Clicked on cell:", row, col]);
+            if (!$scope.isYourTurn) {
+                return;
+            }
+
+            try {
+                var move = gameLogic.createMove($scope.board, row, col, $scope.turnIndex);
+                $scope.isYourTurn = false; // to prevent making another move
+                sendMakeMove(move);
+            } catch (e) {
+                $log.info(["Cell is already full in position or you have to form a sandwich!", row, col]);
+                return;
             }
         };
 
@@ -96,7 +81,6 @@ angular.module('myApp',
                     updateUI(message.updateUI);
                 }
             });
-
             messageService.sendMessage({gameReady : game});
         }
     });
