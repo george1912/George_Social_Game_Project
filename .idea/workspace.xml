@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d721080c-216d-470b-a547-aa51d8c17a0c" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/messageService.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FoxHoundLogic.js" afterPath="$PROJECT_DIR$/FoxHoundLogic.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/updatedgameLogic.js" afterPath="$PROJECT_DIR$/updatedgameLogic.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/updatedgameLogic_tests.js" afterPath="$PROJECT_DIR$/updatedgameLogic_tests.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="George_Social_Game_Project.iws" />
@@ -39,8 +42,18 @@
       <file leaf-file-name="updatedgameLogic.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/updatedgameLogic.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1845" max-vertical-offset="4320">
-              <caret line="136" column="91" selection-start-line="136" selection-start-column="24" selection-end-line="136" selection-end-column="91" />
+            <state vertical-scroll-proportion="-8.115385" vertical-offset="3299" max-vertical-offset="4590">
+              <caret line="234" column="19" selection-start-line="234" selection-start-column="19" selection-end-line="234" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="updatedgameLogic_tests.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/updatedgameLogic_tests.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.33228347" vertical-offset="149" max-vertical-offset="1605">
+              <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -49,13 +62,10 @@
       <file leaf-file-name="FoxHoundLogic.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FoxHoundLogic.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="494" max-vertical-offset="3705">
-              <caret line="136" column="5" selection-start-line="136" selection-start-column="5" selection-end-line="136" selection-end-column="5" />
+            <state vertical-scroll-proportion="-99.80769" vertical-offset="2100" max-vertical-offset="5160">
+              <caret line="320" column="43" selection-start-line="320" selection-start-column="43" selection-end-line="320" selection-end-column="43" />
               <folding>
-                <element signature="e#331#2336#0" expanded="false" />
-                <element signature="e#2365#2405#0" expanded="false" />
                 <element signature="e#2730#2961#0" expanded="false" />
-                <element signature="e#9699#10583#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -64,15 +74,9 @@
       <file leaf-file-name="FoxHoundLogic2.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FoxHoundLogic2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-54.807693" vertical-offset="1965" max-vertical-offset="3600">
-              <caret line="327" column="34" selection-start-line="327" selection-start-column="34" selection-end-line="327" selection-end-column="34" />
-              <folding>
-                <element signature="e#68#2073#0" expanded="false" />
-                <element signature="e#2138#2213#0" expanded="false" />
-                <element signature="e#2259#2490#0" expanded="false" />
-                <element signature="e#2538#3091#0" expanded="false" />
-                <element signature="e#3177#3542#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="-11.769231" vertical-offset="849" max-vertical-offset="5115">
+              <caret line="77" column="5" selection-start-line="75" selection-start-column="4" selection-end-line="77" selection-end-column="5" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -81,16 +85,6 @@
         <entry file="file://$PROJECT_DIR$/game.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="90">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="messageService.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/messageService.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="661">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -119,16 +113,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="updatedgameLogic_tests.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/updatedgameLogic_tests.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="2460">
-              <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindManager">
@@ -149,16 +133,17 @@
         <option value="$PROJECT_DIR$/gamelogic.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/gameLogic_test.js" />
-        <option value="$PROJECT_DIR$/updatedgameLogic.js" />
-        <option value="$PROJECT_DIR$/updatedgameLogic_tests.js" />
         <option value="$PROJECT_DIR$/FoxHoundLogic2.ja.js" />
-        <option value="$PROJECT_DIR$/test.js" />
-        <option value="$PROJECT_DIR$/FoxHoundLogic.js" />
         <option value="$PROJECT_DIR$/FoxHoundLogic2.js" />
         <option value="$PROJECT_DIR$/game.html" />
         <option value="$PROJECT_DIR$/game.js" />
         <option value="$PROJECT_DIR$/gameLogic.js" />
         <option value="$PROJECT_DIR$/messageService.js" />
+        <option value="$PROJECT_DIR$/FoxHoundLogic.js" />
+        <option value="$PROJECT_DIR$/Fox_Hound_test.js" />
+        <option value="$PROJECT_DIR$/test.js" />
+        <option value="$PROJECT_DIR$/updatedgameLogic.js" />
+        <option value="$PROJECT_DIR$/updatedgameLogic_tests.js" />
       </list>
     </option>
   </component>
@@ -225,7 +210,7 @@
     <property name="recentsLimit" value="5" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
   </component>
-  <component name="RunManager" selected="Node.js.FoxHoundLogic2.ja.js">
+  <component name="RunManager" selected="Karma.karma.conf.js">
     <configuration default="false" name="karma.conf.js" type="JavaScriptTestRunnerKarma" factoryName="Karma" temporary="true" config-file="$PROJECT_DIR$/karma.conf.js">
       <envs />
       <RunnerSettings RunnerId="KarmaJavaScriptTestRunnerRun" />
@@ -290,9 +275,9 @@
     </list>
     <recent_temporary>
       <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Node.js.FoxHoundLogic2.ja.js" />
+        <item index="0" class="java.lang.String" itemvalue="Karma.karma.conf.js" />
         <item index="1" class="java.lang.String" itemvalue="Node.js.FoxHoundLogic.js" />
-        <item index="2" class="java.lang.String" itemvalue="Karma.karma.conf.js" />
+        <item index="2" class="java.lang.String" itemvalue="Node.js.FoxHoundLogic2.ja.js" />
       </list>
     </recent_temporary>
   </component>
@@ -374,10 +359,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="5265">
           <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
           <folding>
-            <element signature="e#331#2336#0" expanded="false" />
-            <element signature="e#2365#2405#0" expanded="false" />
             <element signature="e#2730#2961#0" expanded="false" />
-            <element signature="e#9699#10583#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -386,13 +368,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="6540">
           <caret line="32" column="42" selection-start-line="32" selection-start-column="42" selection-end-line="32" selection-end-column="42" />
-          <folding>
-            <element signature="e#68#2073#0" expanded="false" />
-            <element signature="e#2138#2213#0" expanded="false" />
-            <element signature="e#2259#2490#0" expanded="false" />
-            <element signature="e#2538#3091#0" expanded="false" />
-            <element signature="e#3177#3542#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -551,49 +527,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/updatedgameLogic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1845" max-vertical-offset="4320">
-          <caret line="136" column="91" selection-start-line="136" selection-start-column="24" selection-end-line="136" selection-end-column="91" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FoxHoundLogic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="494" max-vertical-offset="3705">
-          <caret line="136" column="5" selection-start-line="136" selection-start-column="5" selection-end-line="136" selection-end-column="5" />
-          <folding>
-            <element signature="e#331#2336#0" expanded="false" />
-            <element signature="e#2365#2405#0" expanded="false" />
-            <element signature="e#2730#2961#0" expanded="false" />
-            <element signature="e#9699#10583#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FoxHoundLogic2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-54.807693" vertical-offset="1965" max-vertical-offset="3600">
-          <caret line="327" column="34" selection-start-line="327" selection-start-column="34" selection-end-line="327" selection-end-column="34" />
-          <folding>
-            <element signature="e#68#2073#0" expanded="false" />
-            <element signature="e#2138#2213#0" expanded="false" />
-            <element signature="e#2259#2490#0" expanded="false" />
-            <element signature="e#2538#3091#0" expanded="false" />
-            <element signature="e#3177#3542#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/updatedgameLogic_tests.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="140" max-vertical-offset="2460">
-          <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/game.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.5" vertical-offset="0" max-vertical-offset="885">
@@ -612,6 +545,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/FoxHoundLogic2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.769231" vertical-offset="849" max-vertical-offset="5115">
+          <caret line="77" column="5" selection-start-line="75" selection-start-column="4" selection-end-line="77" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FoxHoundLogic.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-99.80769" vertical-offset="2100" max-vertical-offset="5160">
+          <caret line="320" column="43" selection-start-line="320" selection-start-column="43" selection-end-line="320" selection-end-column="43" />
+          <folding>
+            <element signature="e#2730#2961#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/game.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="661">
@@ -620,10 +571,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/messageService.js">
+    <entry file="file://$PROJECT_DIR$/updatedgameLogic.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="638">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="-8.115385" vertical-offset="3299" max-vertical-offset="4590">
+          <caret line="234" column="19" selection-start-line="234" selection-start-column="19" selection-end-line="234" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/updatedgameLogic_tests.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33228347" vertical-offset="149" max-vertical-offset="1605">
+          <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
           <folding />
         </state>
       </provider>
