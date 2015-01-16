@@ -33,7 +33,7 @@ angular.module('myApp',
 
         };
 
-        var isLocalTesting = $window.parent === $window;
+        var isLocalTesting = $window.location.origin === "file://";
         $scope.move = JSON.stringify([{setTurn: {turnIndex: 1}}, {set: {key: 'board', value:[
             ['','H','','H','','H','','H'],
             ['','','','','','','',''],

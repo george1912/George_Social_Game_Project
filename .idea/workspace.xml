@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d721080c-216d-470b-a547-aa51d8c17a0c" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/FoxHoundLogic2.js" afterPath="$PROJECT_DIR$/FoxHoundLogicTests.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FoxHoundLogic.js" afterPath="$PROJECT_DIR$/FoxHoundLogic.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/game.html" afterPath="$PROJECT_DIR$/game.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/game.js" afterPath="$PROJECT_DIR$/game.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gameLogic.js" afterPath="$PROJECT_DIR$/gameLogic.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/updatedgameLogic.js" afterPath="$PROJECT_DIR$/updatedgameLogic.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/updatedgameLogic_tests.js" afterPath="$PROJECT_DIR$/updatedgameLogic_tests.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="George_Social_Game_Project.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -75,8 +68,8 @@
       <file leaf-file-name="game.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.054945055" vertical-offset="0" max-vertical-offset="1155">
-              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.96153843" vertical-offset="0" max-vertical-offset="1155">
+              <caret line="35" column="67" selection-start-line="35" selection-start-column="67" selection-end-line="35" selection-end-column="67" />
               <folding />
             </state>
           </provider>
@@ -85,8 +78,8 @@
       <file leaf-file-name="gameLogic.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gameLogic.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-129.8077" vertical-offset="0" max-vertical-offset="5085">
-              <caret line="225" column="21" selection-start-line="225" selection-start-column="21" selection-end-line="225" selection-end-column="21" />
+            <state vertical-scroll-proportion="-2.8846154" vertical-offset="0" max-vertical-offset="5085">
+              <caret line="5" column="48" selection-start-line="5" selection-start-column="48" selection-end-line="5" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -124,9 +117,7 @@
         <option value="$PROJECT_DIR$/gameLogic_test.js" />
         <option value="$PROJECT_DIR$/FoxHoundLogic2.ja.js" />
         <option value="$PROJECT_DIR$/FoxHoundLogic2.js" />
-        <option value="$PROJECT_DIR$/messageService.js" />
         <option value="$PROJECT_DIR$/Fox_Hound_test.js" />
-        <option value="$PROJECT_DIR$/game.js" />
         <option value="$PROJECT_DIR$/game.html" />
         <option value="$PROJECT_DIR$/updatedgameLogic.js" />
         <option value="$PROJECT_DIR$/updatedgameLogic_tests.js" />
@@ -134,6 +125,8 @@
         <option value="$PROJECT_DIR$/FoxHoundLogicTests.js" />
         <option value="$PROJECT_DIR$/gameLogic.js" />
         <option value="$PROJECT_DIR$/test.js" />
+        <option value="$PROJECT_DIR$/messageService.js" />
+        <option value="$PROJECT_DIR$/game.js" />
       </list>
     </option>
   </component>
@@ -559,14 +552,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gameLogic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-129.8077" vertical-offset="0" max-vertical-offset="5085">
-          <caret line="225" column="21" selection-start-line="225" selection-start-column="21" selection-end-line="225" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/game.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.1" vertical-offset="0" max-vertical-offset="750">
@@ -575,10 +560,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/messageService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.46703297" vertical-offset="0" max-vertical-offset="546">
+          <caret line="17" column="7" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameLogic.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.8846154" vertical-offset="0" max-vertical-offset="5085">
+          <caret line="5" column="48" selection-start-line="5" selection-start-column="48" selection-end-line="5" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.054945055" vertical-offset="0" max-vertical-offset="1155">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.96153843" vertical-offset="0" max-vertical-offset="1155">
+          <caret line="35" column="67" selection-start-line="35" selection-start-column="67" selection-end-line="35" selection-end-column="67" />
           <folding />
         </state>
       </provider>
