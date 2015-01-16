@@ -1,587 +1,190 @@
-/*jslint devel: true, indent: 1 */
-/*global console*/
+'use strict';
 
-  'use strict';
 angular.module('myApp.gameLogic', []).service('gameLogic', function() {
-
-  var maxRow = 7;
-  var maxCol = 7;
 
   function isEqual(object1, object2) {
     return angular.equals(object1, object2);
   }
 
   function copyObject(object) {
-   return angular.copy(object);
+    return angular.copy(object);
   }
 
-  function isEmptySquare(coordinates) {
-     if (coordinates.board [coordinates.row][coordinates.col] === '') {
-       return true;
-     }
-     return false;
-  }
-
-  function desiredAdjPiece(board, row, col, directions, colourOpponentPiece){
-
-    if (row > 0) {
-      if (board [row - 1][col] === colourOpponentPiece)
-      {
-        directions.push('V1');
-      }
-    }
-
-    if (row < 7) {
-     if (board [row + 1][col] === colourOpponentPiece)
-     {
-       directions.push('V2');
-     }
-   }
-
-    if (col > 0) {
-     if (board [row][col - 1] === colourOpponentPiece)
-     {
-       directions.push('H1');
-     }
-   }
-
-    if (col < 7) {
-     if (board [row][col + 1] === colourOpponentPiece)
-     {
-       directions.push('H2');
-     }
-   }
-
-    if ((row > 0) && (col > 0)) {
-     if (board [row - 1][col - 1] === colourOpponentPiece)
-     {
-       directions.push('D1');
-     }
-   }
-
-    if ((row > 0) && (col < 7)) {
-     if (board [row - 1][col + 1] === colourOpponentPiece)
-     {
-       directions.push('D2');
-     }
-   }
-
-    if ((row < 7) && (col < 7)) {
-     if (board [row + 1][col + 1] === colourOpponentPiece)
-     {
-       directions.push('D3');
-     }
-   }
-
-    if ((row < 7) && (col > 0)) {
-     if (board [row + 1][col - 1] === colourOpponentPiece)
-     {
-       directions.push('D4');
-     }
-   }
-
-     if (directions.length)
-     {
-       return true;
-     }
-     return false;
-  }
-
-  function sandwich(board, row, col, directions, colourPlayerPiece, colourOpponentPiece) {
-     var ct = 0;
-     var tempBoard = copyObject(board);
-     for (var i = 0; i < directions.length; i ++) {
-          switch (directions [i]) {
-          case 'V1':
-           var loc = -1;
-           var flag = 1;
-
-           for (var k = row - 1; k >= 0; k --) {
-                 if(board [k][col] === colourPlayerPiece) {
-                   loc = k;
-                    break;
-                  }
-            }
-
-           if (loc === -1) {
-               break;
-             }
-
-           for (var k = row - 1; k > loc; k --) {
-            if(board [k][col] !== colourOpponentPiece) {
-                flag = 0;
-                break;
-              }
-            }
-           if (flag) {
-             for (var k = row - 1; k > loc; k --) {
-             tempBoard [k][col] = colourPlayerPiece;
-             }
-             tempBoard [row][col] = colourPlayerPiece;
-             ct ++;
-            }
-
-           break;
-
-          case 'V2':
-             var loc = -1;
-             var flag = 1;
-
-             for(var k = row + 1; k <= maxRow; k ++) {
-                   if(board [k][col] === colourPlayerPiece) {
-                     loc = k;
-                      break;
-                    }
-              }
-
-             if(loc === -1) {
-               break;
-             }
-
-             for (var k = row + 1; k < loc; k ++) {
-              if(board [k][col] !== colourOpponentPiece) {
-                  flag = 0;
-                  break;
-                }
-              }
-             if (flag) {
-               for (var k = row + 1; k < loc; k ++) {
-               tempBoard [k][col] = colourPlayerPiece;
-               }
-               tempBoard [row][col] = colourPlayerPiece;
-               ct ++;
-              }
-
-             break;
-
-          case 'H1':
-             var loc = -1;
-             var flag = 1;
-
-             for(var k = col - 1; k >= 0; k --) {
-                   if(board [row][k] === colourPlayerPiece) {
-                     loc = k;
-                      break;
-                    }
-              }
-
-             if(loc === -1) {
-                 break;
-               }
-
-             for (var k = col - 1; k > loc; k --) {
-              if(board [row][k] !== colourOpponentPiece) {
-                  flag = 0;
-                  break;
-                }
-              }
-             if (flag) {
-               for (var k = col - 1; k > loc; k --) {
-               tempBoard [row][k] = colourPlayerPiece;
-               }
-               tempBoard [row][col] = colourPlayerPiece;
-               ct ++;
-              }
-
-             break;
-
-          case 'H2':
-                  var loc = -1;
-               var flag = 1;
-
-               for(var k = col + 1; k <= maxCol; k ++) {
-                     if(board [row][k] === colourPlayerPiece) {
-                       loc = k;
-                        break;
-                      }
-                }
-               if(loc === -1) {
-                 break;
-               }
-               for (var k = col + 1; k < loc; k ++) {
-                if(board [row][k] !== colourOpponentPiece) {
-                    flag = 0;
-                    break;
-                  }
-                }
-               if (flag) {
-                 for (var k = col + 1; k < loc; k ++) {
-                 tempBoard[row][k] = colourPlayerPiece;
-                 }
-                 tempBoard [row][col] = colourPlayerPiece;
-                 ct ++;
-                }
-               break;
-
-          case 'D1':
-             var locRow = -1;
-             var locCol = -1;
-             var flag = 1;
-
-             for(var k = row - 1, l = col - 1; (k >= 0 && l >= 0); k --, l --) {
-                   if(board [k][l] === colourPlayerPiece) {
-                     locRow = k;
-                     locCol = l;
-                      break;
-                    }
-              }
-
-             if(locRow === -1) {
-               break;
-             }
-
-             for (var k = row - 1, l = col - 1; (k > locRow) && (l > locCol); k --, l --) {
-              if(board [k][l] !== colourOpponentPiece) {
-                  flag = 0;
-                  break;
-                }
-              }
-             if (flag) {
-               for (var k = row - 1, l = col - 1; (k > locRow) && (l > locCol); k --, l --) {
-                 tempBoard [k][l] = colourPlayerPiece;
-               }
-               tempBoard [row][col] = colourPlayerPiece;
-               ct ++;
-              }
-             break;
-
-          case 'D2':
-             var locRow = -1;
-             var locCol = -1;
-             var flag = 1;
-
-             for(var k = row - 1, l = col + 1; (k >= 0 && l <= maxCol); k --, l ++) {
-                   if(board [k][l] === colourPlayerPiece) {
-                     locRow = k;
-                     locCol = l;
-                      break;
-                    }
-              }
-
-             if(locRow === -1) {
-               break;
-             }
-
-             for (var k = row - 1, l = col + 1; (k > locRow) && (l < locCol); k --, l ++) {
-              if(board [k][l] !== colourOpponentPiece) {
-                  flag = 0;
-                  break;
-                }
-              }
-             if (flag) {
-               for (var k = row - 1, l = col + 1; (k > locRow) && (l < locCol); k --, l ++) {
-                 tempBoard [k][l] = colourPlayerPiece;
-               }
-               tempBoard [row][col] = colourPlayerPiece;
-               ct ++;
-              }
-
-             break;
-
-          case 'D3':
-             var locRow = -1;
-             var locCol = -1;
-             var flag = 1;
-
-             for(var k = row + 1, l = col + 1; (k <= maxRow && l <= maxCol); k ++, l ++) {
-                   if(board [k][l] === colourPlayerPiece) {
-                     locRow = k;
-                     locCol = l;
-                      break;
-                    }
-              }
-
-             if(locRow === -1) {
-               break;
-             }
-
-             for (var k = row + 1, l = col + 1; (k < locRow) && (l < locCol); k ++, l ++) {
-              if(board [k][l] !== colourOpponentPiece) {
-                  flag = 0;
-                  break;
-                }
-              }
-             if (flag) {
-               for (var k = row + 1, l = col + 1; (k < locRow) && (l < locCol); k ++, l ++) {
-                tempBoard [k][l] = colourPlayerPiece;
-               }
-               tempBoard [row][col] = colourPlayerPiece;
-               ct ++;
-              }
-
-             break;
-
-          case 'D4':
-             var locRow = -1;
-             var locCol = -1;
-             var flag = 1;
-
-             for(var k = row + 1, l = col - 1; (k <= maxRow && l >= 0); k ++, l --) {
-                   if(board [k][l] === colourPlayerPiece) {
-                     locRow = k;
-                     locCol = l;
-                      break;
-                    }
-              }
-
-             if(locRow === -1)  {
-               break;
-             }
-             for (var k = row + 1, l = col - 1; (k < locRow) && (l > locCol); k ++, l --) {
-              if(board [k][l] !== colourOpponentPiece) {
-                  flag = 0;
-                  break;
-                }
-              }
-             if (flag) {
-               for (var k = row + 1, l = col - 1; (k < locRow) && (l > locCol); k ++, l --) {
-                tempBoard [k][l] = colourPlayerPiece;
-               }
-                tempBoard [row][col] = colourPlayerPiece;
-                ct ++;
-              }
-
-             break;
-          }
-       }
-
-     if (ct)  {
-       return {count: ct, tempBoard: tempBoard, status: true};
-    }
-
-     return {count: ct, status: false};
-}
-
-  function createMove(board, row, col, turnIndexBeforeMove)
-  {
-       if (board === undefined) {
-      board = [
-       ['', '', '', '', '', '', '', ''],
-       ['', '', '', '', '', '', '', ''],
-       ['', '', '', '', '', '', '', ''],
-       ['', '', '', 'W', 'B', '', '', ''],
-       ['', '', '', 'B', 'W', '', '', ''],
-       ['', '', '', '', '', '', '', ''],
-       ['', '', '', '', '', '', '', ''],
-       ['', '', '', '', '', '', '', '']
-      ];
-       }
-       if (!isEmptySquare({board: board, row: row, col: col})) {
-          throw new Error("One can only make a move in an empty position!");;
-         }
-       var colourOpponentPiece = (turnIndexBeforeMove === 0 ?'W':'B');
-       var directions = [];
-       if (!desiredAdjPiece(board, row, col, directions, colourOpponentPiece)) {
-          throw new Error("One can only make a move next to the opponent's piece!");
-         }
-       var colourPlayerPiece = (turnIndexBeforeMove === 0 ? 'B':'W');
-       var result = sandwich(board, row, col, directions, colourPlayerPiece, colourOpponentPiece);
-       if (!result.status) {
-          throw new Error("One must sandwich opponent's pieces on every move!");
-         }
-
-       var firstOperation;
-       var boardAfterMove = copyObject(board);
-       boardAfterMove [row][col] = (turnIndexBeforeMove === 0 ? 'B':'W');
-       var end = gameOver(result.tempBoard);
-       if (end.status) {
-          firstOperation = {endMatch: {endMatchScores: (end.winner === 'B' ? [1,0]
-          : (end.winner === 'W' ? [0,1] : [0,0]))}};
-         }
-       else  {
-          var toBeOpponent = turnIndexBeforeMove == 0 ? 'W' : 'B';
-          var currentPlayer = turnIndexBeforeMove == 0 ? 'B' : 'W';
-          var turn = hasValidMoves(toBeOpponent, currentPlayer, result.tempBoard);
-          if (turn) {
-              firstOperation = {setTurn: {turnIndex: 1 - turnIndexBeforeMove}};
-            }
-          else {
-              firstOperation = {setTurn: {turnIndex: turnIndexBeforeMove}};
-            }
-         }
-       return         [firstOperation,
-                 {set: {key: 'board', value: result.tempBoard}},
-                 {set: {key: 'delta', value: {row: row, col: col}}}];
-}
-
-  function hasValidMoves(colourPlayerPiece, colourOpponentPiece, board){
-    var flag = 0;
-    for (var i = 0; i <= maxRow; i ++) {
-      for (var j = 0; j <= maxCol; j ++) {
-        if (!isEmptySquare({board: board, row: i, col: j})) {
-        continue;
-        }
-        var directions = [];
-        if(!desiredAdjPiece(board, i, j, directions, colourOpponentPiece)) {
-          continue;
-        }
-        var result = sandwich(board, i, j, directions, colourPlayerPiece, colourOpponentPiece);
-        if (!result.status) {
-          continue;
-        }
-        if (result.count) {
-          flag = 1;
-          break;
-        }
-      }
-
-      if (flag) {
-          break;
-        }
-    }
-    if (flag) {
-      return true;
-    }
-    return false;
-  }
-
-  function gameOver(board) {
-    var emptyCells = 0;
-    var result;
-    for (var i = 0; i <= maxRow; i ++) {
-       for (var j = 0; j <= maxCol; j ++) {
-         if (board [i][j] === '') {
-            emptyCells ++;
-           }
-        }
-      }
-    if (!emptyCells) {
-       result = getWinner(board);
-       return {winner: result, status: true};
-      }
-
-    else if ((!hasValidMoves('W', 'B', board)) && (!hasValidMoves('B', 'W', board))) {
-    result = getWinner(board);
-    return {winner: result, status: true};
-    }
-    return {status: false};
-   }
-
+  /** Return the winner (either 'X' or 'O') or '' if there is no winner. */
   function getWinner(board) {
-    var wCount = 0;
-    var bCount = 0;
-    for (var i = 0; i <= maxRow; i ++) {
-     for (var j = 0; j <= maxCol; j ++) {
-       if (board[i][j] === 'W') {
-          wCount ++;
-         }
-       else if (board[i][j] === 'B') {
-          bCount ++;
-         }
+    var boardString = '';
+    var i, j;
+    for (i = 0; i < 3; i++) {
+      for (j = 0; j < 3; j++) {
+        var cell = board[i][j];
+        boardString += (cell === '' ? ' ' : cell);
       }
-     }
-    if (wCount > bCount) {
-       return 'W';
+    }
+    var win_patterns = [
+      'XXX......',
+      '...XXX...',
+      '......XXX',
+      'X..X..X..',
+      '.X..X..X.',
+      '..X..X..X',
+      'X...X...X',
+      '..X.X.X..'
+    ];
+    for (i = 0; i < win_patterns.length; i++) {
+      var win_pattern = win_patterns[i];
+      var x_regexp = new RegExp(win_pattern);
+      var o_regexp = new RegExp(win_pattern.replace(/X/g, 'O'));
+      if (x_regexp.test(boardString)) {
+        return 'X';
       }
-    else if (bCount > wCount) {
-       return 'B';
+      if (o_regexp.test(boardString)) {
+        return 'O';
       }
-    return 'T';
+    }
+    return '';
+  }
+
+  /** Returns true if the game ended in a tie because there are no empty cells. */
+  function isTie(board) {
+    var i, j;
+    for (i = 0; i < 3; i++) {
+      for (j = 0; j < 3; j++) {
+        if (board[i][j] === '') {
+          // If there is an empty cell then we do not have a tie.
+          return false;
+        }
+      }
+    }
+    // No empty cells --> tie!
+    return true;
+  }
+
+  /**
+   * Returns the move that should be performed when player
+   * with index turnIndexBeforeMove makes a move in cell row X col.
+   */
+  function createMove(board, row, col, turnIndexBeforeMove) {
+    if (board === undefined) {
+      // Initially (at the beginning of the match), the board in state is undefined.
+      board = [['', '', ''], ['', '', ''], ['', '', '']];
+    }
+    if (board[row][col] !== '') {
+      throw new Error("One can only make a move in an empty position!");
+    }
+    var boardAfterMove = copyObject(board);
+    boardAfterMove[row][col] = turnIndexBeforeMove === 0 ? 'X' : 'O';
+    var winner = getWinner(boardAfterMove);
+    var firstOperation;
+    if (winner !== '' || isTie(boardAfterMove)) {
+      // Game over.
+      firstOperation = {endMatch: {endMatchScores:
+        (winner === 'X' ? [1, 0] : (winner === 'O' ? [0, 1] : [0, 0]))}};
+    } else {
+      // Game continues. Now it's the opponent's turn (the turn switches from 0 to 1 and 1 to 0).
+      firstOperation = {setTurn: {turnIndex: 1 - turnIndexBeforeMove}};
+    }
+    return [firstOperation,
+            {set: {key: 'board', value: boardAfterMove}},
+            {set: {key: 'delta', value: {row: row, col: col}}}];
+  }
+
+  /** Returns an array of {stateBeforeMove, move, comment}. */
+  function getExampleMoves(initialTurnIndex, initialState, arrayOfRowColComment) {
+    var exampleMoves = [];
+    var state = initialState;
+    var turnIndex = initialTurnIndex;
+    for (var i = 0; i < arrayOfRowColComment.length; i++) {
+      var rowColComment = arrayOfRowColComment[i];
+      var move = createMove(state.board, rowColComment.row, rowColComment.col, turnIndex);
+      var stateAfterMove = {board : move[1].set.value, delta: move[2].set.value};
+      exampleMoves.push({
+        stateBeforeMove: state,
+        stateAfterMove: stateAfterMove,
+        turnIndexBeforeMove: turnIndex,
+        turnIndexAfterMove: 1 - turnIndex,
+        move: move,
+        comment: {en: rowColComment.comment}});
+        
+      state = stateAfterMove;
+      turnIndex = 1 - turnIndex;
+    }
+    return exampleMoves;
+  }
+
+  function getRiddles() {
+    return [
+      getExampleMoves(0,
+        {
+          board:
+            [['O', 'O', ''],
+             ['', 'X', ''],
+             ['', '', 'X']],
+          delta: {row: 0, col: 1}
+        },
+        [
+        {row: 0, col: 2, comment: "Find the position for X where he could win in his next turn either by having a diagonal or a column"},
+        {row: 2, col: 0, comment: "O played in bottom-left"},
+        {row: 1, col: 2, comment: "X wins in the middle-right by having three X in the right column."}
+      ]),
+      getExampleMoves(1,
+        {
+          board:
+            [['O', '', ''],
+             ['X', 'O', 'X'],
+             ['', '', 'X']],
+          delta: {row: 0, col: 1}
+        },
+        [
+        {row: 0, col: 2, comment: "O must play there to prevent X from winning"},
+        {row: 2, col: 0, comment: "X played in bottom-left"},
+        {row: 0, col: 1, comment: "O wins by having 3 in a row!"}
+      ])
+    ];
+  }
+
+  function getExampleGame() {
+    return getExampleMoves(0, {}, [
+      {row: 1, col: 1, comment: "The classic opening is to put X in the middle"},
+      {row: 0, col: 0, comment: "O in the top-left"},
+      {row: 2, col: 2, comment: "X in the bottom-right"},
+      {row: 0, col: 1, comment: "O in the top-middle (this is a mistake! X will win in 2 moves!)"},
+      {row: 0, col: 2, comment: "X in the top-right (X can win next turn either in middle-right or bottom-left. No way O can prevent it.)"},
+      {row: 2, col: 0, comment: "O in the bottom-left (X will now win...)"},
+      {row: 1, col: 2, comment: "X wins in the middle-right by having three X in the right column."}
+    ]);
   }
 
   function isMoveOk(params) {
-   var turnIndexBeforeMove = params.turnIndexBeforeMove;
-   var stateBeforeMove = params.stateBeforeMove;
-   var board = stateBeforeMove.board;
-   var move = params.move;
+    var move = params.move;
+    var turnIndexBeforeMove = params.turnIndexBeforeMove;
+    var stateBeforeMove = params.stateBeforeMove;
+    // The state and turn after move are not needed in TicTacToe (or in any game where all state is public).
+    //var turnIndexAfterMove = params.turnIndexAfterMove;
+    //var stateAfterMove = params.stateAfterMove;
 
-   try {
-     var row = move[2].set.value.row;
-     var col = move[2].set.value.col;
-     var expectedMove = createMove(board, row, col, turnIndexBeforeMove);
-
-     if (!isEqual(move, expectedMove)) {
-         return false;
-       }
-   } catch (e) {
-     return false;
-   }
-   return true;
+    // We can assume that turnIndexBeforeMove and stateBeforeMove are legal, and we need
+    // to verify that move is legal.
+    try {
+      // Example move:
+      // [{setTurn: {turnIndex : 1},
+      //  {set: {key: 'board', value: [['X', '', ''], ['', '', ''], ['', '', '']]}},
+      //  {set: {key: 'delta', value: {row: 0, col: 0}}}]
+      var deltaValue = move[2].set.value;
+      var row = deltaValue.row;
+      var col = deltaValue.col;
+      var board = stateBeforeMove.board;
+      var expectedMove = createMove(board, row, col, turnIndexBeforeMove);
+      if (!isEqual(move, expectedMove)) {
+        return false;
+      }
+    } catch (e) {
+      // if there are any exceptions then the move is illegal
+      return false;
+    }
+    return true;
   }
 
-  function exampleMoves(initTurnIndex, initState, arrayOfRowColComment) {
-  var state = initState;
-  var temp;
-  var store = [];
-  var turnIndex = initTurnIndex;
-
-  for (var i = 0; i < arrayOfRowColComment.length; i ++) {
-    var rowColComment = arrayOfRowColComment[i];
-
-    temp = createMove(state.board, rowColComment.row,
-              rowColComment.col, turnIndex);
-
-    var stateAfterMove = {board: temp[1].set.value, delta: temp[2].set.value};
-store.push({stateBeforeMove: state,
-       stateAfterMove: stateAfterMove,
-       turnIndexBeforeMove: turnIndex,
-       turnIndexAfterMove: temp[0].setTurn.turnIndex,
-       comment: {en: rowColComment.comment},
-       move: temp});
-turnIndex = temp[0].setTurn.turnIndex;
-state = stateAfterMove;
-}
-return store;
-}
-
-
-
-  function exampleGame() {
-    return (exampleMoves(0,
-               {board:[['','','B','W','W','W','',''],
-                       ['','','B','B','W','W','',''],
-                       ['W','W','B','W','W','W','B','B'],
-                       ['W','B','W','W','B','W','B','B'],
-                       ['W','W','B','W','B','B','B','B'],
-                       ['W','W','W','B','W','B','W','W'],
-                       ['','','W','W','B','B','',''],
-                       ['','','W','B','B','B','','']],
-               delta: {row: 2, col: 0}},
-               [{row: 0, col: 6, comment: "Black plays on square (0,6)"}
-               ,
-                   {row: 0, col: 1, comment: "White plays on square (0,1)"}
-                   ,
-                   {row: 7, col: 1, comment: "Black plays row 7, col 1"},
-                {row: 6, col: 6, comment: "Uh oh, white plays in x-Square"},
-                   {row: 7, col: 7, comment: "Black captures bottom-left corner!"},
-                  {row: 6, col: 7, comment: "White plays (6,7)"}
-                   ]));
-  }
-
-  function riddles() {
-    return([
-          exampleMoves(1,
-               {board:[['','','B','W','W','W','B',''],
-                       ['','B','B','B','W','W','W',''],
-                       ['W','W','B','W','W','W','B','B'],
-                       ['W','B','W','W','B','W','B','B'],
-                       ['W','W','B','W','B','B','B','B'],
-                       ['W','W','W','B','W','B','W','W'],
-                       ['','','W','W','B','B','',''],
-                       ['','','W','B','B','B','','']],
-               delta: {row: 2, col: 0}},
-               [{row: 0, col: 0, comment: "Where should White play to get an advantage on his next turn?"},
-                   {row: 6, col: 6, comment: "Black plays row 6, col 6"},
-                   {row: 7, col: 7, comment: "White captures diagonal!"}]),
-        exampleMoves(0,
-               {board:[['','B','B','B','B','B','B',''],
-                       ['','','B','B','W','W','',''],
-                       ['W','W','B','W','W','W','B','B'],
-                       ['W','B','W','W','B','W','B','B'],
-                       ['W','W','B','W','B','B','B','B'],
-                       ['W','W','W','B','W','B','W','W'],
-                       ['','','W','W','B','B','',''],
-                       ['','','B','B','B','B','B','']],
-               delta: {row: 3, col: 0}},
-               [{row: 7, col: 1, comment: "Where should Black play to not give White an advantage on his next turn?"},
-               {row: 1, col: 7, comment: "White in (1,7)"}])
-          ]
-        );
-  }
-
-
-  this.createMove = createMove;
   this.isMoveOk = isMoveOk;
-  this.exampleGame = exampleGame;
-  this.riddles = riddles;
+  this.getExampleGame = getExampleGame;
+  this.getRiddles = getRiddles;
 });

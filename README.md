@@ -1,2 +1,4 @@
-Reversi
-=======
+TicTacToe
+=========
+
+TicTacToe game
