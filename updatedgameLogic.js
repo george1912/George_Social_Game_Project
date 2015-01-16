@@ -1,14 +1,5 @@
-'use strict';
+var Fox_Hounds = (function () {
 
-angular.module('myApp.gameLogic',[]).service('gameLogic',function(){
-
-    function isEqual(object1, object2) {
-        return angular.equals(object1, object2);
-    }
-
-    function copyObject(object) {
-        return angular.copy(object);
-    }
 
     function getWinner(row,col,board){
 
@@ -83,11 +74,11 @@ angular.module('myApp.gameLogic',[]).service('gameLogic',function(){
 
 
 
-    /*
+
     function isEqual(object1, object2) {
         return JSON.stringify(object1) === JSON.stringify(object2);
     }
-    */
+
 
 
 
@@ -171,8 +162,7 @@ angular.module('myApp.gameLogic',[]).service('gameLogic',function(){
 
 
 
-        //var boardAfterMove = JSON.parse(JSON.stringify(boardBeforeMove));
-        var boardAfterMove = copyObject(boardBeforeMove);
+        var boardAfterMove = JSON.parse(JSON.stringify(boardBeforeMove));
         boardAfterMove[row][col] = turnIndexBeforeMove===0?'F' : 'H';	    //Index => 0 than 'F', turnIndex => 1 than 'H'
         if(boardAfterMove[oldrow][oldcol]===boardAfterMove[row][col]){
             boardAfterMove[oldrow][oldcol] = '';
@@ -222,23 +212,6 @@ angular.module('myApp.gameLogic',[]).service('gameLogic',function(){
 
 
     }
-
-    function getInitialBoard() {
-        return [
-            ['','H','','H','','H','','H'],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['F','','','','','','','']
-        ];
-    }
-
-
-
-
 
 
     function getExampleMoves(initialTurnIndex, initialState, arrayOfRowColSets){
@@ -324,10 +297,8 @@ angular.module('myApp.gameLogic',[]).service('gameLogic',function(){
 
 
 
-    this.getInitialBoard = getInitialBoard;
-    this.createMove = createMove;
-    this.isMoveOk = isMoveOk;
-    this.getExampleGame = getExampleGame;
+    return {isMoveOk: isMoveOk, getExampleGame: getExampleGame};
 
-});
+})();
+
 
