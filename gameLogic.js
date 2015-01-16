@@ -1,333 +1,603 @@
-'use strict';
+/*jslint devel: true, indent: 1 */
+/*global console*/
 
-angular.module('myApp.gameLogic',[]).service('gameLogic',function(){
+  'use strict';
+angular.module('myApp').service('gameLogic', function()  {
 
-    function isEqual(object1, object2) {
-        return angular.equals(object1, object2);
+  var maxRow = 7;
+  var maxCol = 7;
+
+  function isEqual(object1, object2) {
+    return angular.equals(object1, object2);
+  }
+
+  function copyObject(object) {
+   return angular.copy(object);
+  }
+
+  function isEmptySquare(coordinates) {
+     if (coordinates.board [coordinates.row][coordinates.col] === '') {
+       return true;
+     }
+     return false;
+  }
+
+  function desiredAdjPiece(board, row, col, directions, colourOpponentPiece){
+
+    if (row > 0) {
+      if (board [row - 1][col] === colourOpponentPiece)
+      {
+        directions.push('V1');
+      }
     }
 
-    function copyObject(object) {
-        return angular.copy(object);
-    }
+    if (row < 7) {
+     if (board [row + 1][col] === colourOpponentPiece)
+     {
+       directions.push('V2');
+     }
+   }
 
-    function getWinner(row,col,board){
+    if (col > 0) {
+     if (board [row][col - 1] === colourOpponentPiece)
+     {
+       directions.push('H1');
+     }
+   }
 
-        //fox wins if he is located in any of the to right strings this will create a win condition for the fox
-        if (board[row][col] === 'F')
-        {
-            if (board[0][1] === 'F' || board[0][3] === 'F' || board[0][5] === 'F' || board[0][7] === 'F')
-            {
-                return 'F';
+    if (col < 7) {
+     if (board [row][col + 1] === colourOpponentPiece)
+     {
+       directions.push('H2');
+     }
+   }
+
+    if ((row > 0) && (col > 0)) {
+     if (board [row - 1][col - 1] === colourOpponentPiece)
+     {
+       directions.push('D1');
+     }
+   }
+
+    if ((row > 0) && (col < 7)) {
+     if (board [row - 1][col + 1] === colourOpponentPiece)
+     {
+       directions.push('D2');
+     }
+   }
+
+    if ((row < 7) && (col < 7)) {
+     if (board [row + 1][col + 1] === colourOpponentPiece)
+     {
+       directions.push('D3');
+     }
+   }
+
+    if ((row < 7) && (col > 0)) {
+     if (board [row + 1][col - 1] === colourOpponentPiece)
+     {
+       directions.push('D4');
+     }
+   }
+
+     if (directions.length)
+     {
+       return true;
+     }
+     return false;
+  }
+
+  function sandwich(board, row, col, directions, colourPlayerPiece, colourOpponentPiece) {
+     var ct = 0;
+     var tempBoard = copyObject(board);
+     for (var i = 0; i < directions.length; i ++) {
+          switch (directions [i]) {
+          case 'V1':
+           var loc = -1;
+           var flag = 1;
+
+           for (var k = row - 1; k >= 0; k --) {
+                 if(board [k][col] === colourPlayerPiece) {
+                   loc = k;
+                    break;
+                  }
             }
-        }
-        else if (board[row][col] === 'H')
-        {
-            if (board[7][0] === 'H' && board[7][2] === 'H' && board[7][4] === 'H' && board[7][6] === 'H')
-            {
-                return 'H';
+
+           if (loc === -1) {
+               break;
+             }
+
+           for (var k = row - 1; k > loc; k --) {
+            if(board [k][col] !== colourOpponentPiece) {
+                flag = 0;
+                break;
+              }
             }
-        }
-        if (board[7][0] === 'F' && board[6][1] === 'H')
-        {
-            return 'H';
-        }
-        else if (board[1][0] === 'F')
-        {
-            if (board[0][1] === 'H' && board[2][1] === 'H')
-                return 'H';
-        }
-        else if (board[3][0] === 'F')
-        {
-            if (board[2][1] === 'H' && board[4][1] === 'H')
-                return 'H';
-        }
-        else if (board[5][0] === 'F')
-        {
-            if (board[4][1] === 'H' && board[6][1] === 'H')
-                return 'H';
-        }
-        else if (board[2][7] === 'F')
-        {
-            if (board[1][6] === 'H' && board[3][6] === 'H')
-            {
-                return 'H';
+           if (flag) {
+             for (var k = row - 1; k > loc; k --) {
+             tempBoard [k][col] = colourPlayerPiece;
+             }
+             tempBoard [row][col] = colourPlayerPiece;
+             ct ++;
             }
-        }
-        else if (board[4][7] === 'F')
-        {
-            if (board[3][6] === 'H' && board[5][6] === 'H')
-            {
-                return 'H';
-            }
-        }
-        else if (board[6][7] === 'F')
-        {
-            if (board[5][6] === 'H' && board[7][6] === 'H')
-            {
-                return 'H';
-            }
-        }
-        else
-        {
-            for (var i=1; i<6; i++)
-            {
-                for (var j=1; j<6; j++)
-                {
-                    if (board[i][j] === 'F' && board[i+1][j+1] === 'H' && board[i-1][j-1] === 'H' && board[i+1][j-1] === 'H' && board[i-1][j+1] === 'H' )
-                        return 'H';
+
+           break;
+
+          case 'V2':
+             var loc = -1;
+             var flag = 1;
+
+             for(var k = row + 1; k <= maxRow; k ++) {
+                   if(board [k][col] === colourPlayerPiece) {
+                     loc = k;
+                      break;
+                    }
+              }
+
+             if(loc === -1) {
+               break;
+             }
+
+             for (var k = row + 1; k < loc; k ++) {
+              if(board [k][col] !== colourOpponentPiece) {
+                  flag = 0;
+                  break;
                 }
+              }
+             if (flag) {
+               for (var k = row + 1; k < loc; k ++) {
+               tempBoard [k][col] = colourPlayerPiece;
+               }
+               tempBoard [row][col] = colourPlayerPiece;
+               ct ++;
+              }
+
+             break;
+
+          case 'H1':
+             var loc = -1;
+             var flag = 1;
+
+             for(var k = col - 1; k >= 0; k --) {
+                   if(board [row][k] === colourPlayerPiece) {
+                     loc = k;
+                      break;
+                    }
+              }
+
+             if(loc === -1) {
+                 break;
+               }
+
+             for (var k = col - 1; k > loc; k --) {
+              if(board [row][k] !== colourOpponentPiece) {
+                  flag = 0;
+                  break;
+                }
+              }
+             if (flag) {
+               for (var k = col - 1; k > loc; k --) {
+               tempBoard [row][k] = colourPlayerPiece;
+               }
+               tempBoard [row][col] = colourPlayerPiece;
+               ct ++;
+              }
+
+             break;
+
+          case 'H2':
+                  var loc = -1;
+               var flag = 1;
+
+               for(var k = col + 1; k <= maxCol; k ++) {
+                     if(board [row][k] === colourPlayerPiece) {
+                       loc = k;
+                        break;
+                      }
+                }
+               if(loc === -1) {
+                 break;
+               }
+               for (var k = col + 1; k < loc; k ++) {
+                if(board [row][k] !== colourOpponentPiece) {
+                    flag = 0;
+                    break;
+                  }
+                }
+               if (flag) {
+                 for (var k = col + 1; k < loc; k ++) {
+                 tempBoard[row][k] = colourPlayerPiece;
+                 }
+                 tempBoard [row][col] = colourPlayerPiece;
+                 ct ++;
+                }
+               break;
+
+          case 'D1':
+             var locRow = -1;
+             var locCol = -1;
+             var flag = 1;
+
+             for(var k = row - 1, l = col - 1; (k >= 0 && l >= 0); k --, l --) {
+                   if(board [k][l] === colourPlayerPiece) {
+                     locRow = k;
+                     locCol = l;
+                      break;
+                    }
+              }
+
+             if(locRow === -1) {
+               break;
+             }
+
+             for (var k = row - 1, l = col - 1; (k > locRow) && (l > locCol); k --, l --) {
+              if(board [k][l] !== colourOpponentPiece) {
+                  flag = 0;
+                  break;
+                }
+              }
+             if (flag) {
+               for (var k = row - 1, l = col - 1; (k > locRow) && (l > locCol); k --, l --) {
+                 tempBoard [k][l] = colourPlayerPiece;
+               }
+               tempBoard [row][col] = colourPlayerPiece;
+               ct ++;
+              }
+             break;
+
+          case 'D2':
+             var locRow = -1;
+             var locCol = -1;
+             var flag = 1;
+
+             for(var k = row - 1, l = col + 1; (k >= 0 && l <= maxCol); k --, l ++) {
+                   if(board [k][l] === colourPlayerPiece) {
+                     locRow = k;
+                     locCol = l;
+                      break;
+                    }
+              }
+
+             if(locRow === -1) {
+               break;
+             }
+
+             for (var k = row - 1, l = col + 1; (k > locRow) && (l < locCol); k --, l ++) {
+              if(board [k][l] !== colourOpponentPiece) {
+                  flag = 0;
+                  break;
+                }
+              }
+             if (flag) {
+               for (var k = row - 1, l = col + 1; (k > locRow) && (l < locCol); k --, l ++) {
+                 tempBoard [k][l] = colourPlayerPiece;
+               }
+               tempBoard [row][col] = colourPlayerPiece;
+               ct ++;
+              }
+
+             break;
+
+          case 'D3':
+             var locRow = -1;
+             var locCol = -1;
+             var flag = 1;
+
+             for(var k = row + 1, l = col + 1; (k <= maxRow && l <= maxCol); k ++, l ++) {
+                   if(board [k][l] === colourPlayerPiece) {
+                     locRow = k;
+                     locCol = l;
+                      break;
+                    }
+              }
+
+             if(locRow === -1) {
+               break;
+             }
+
+             for (var k = row + 1, l = col + 1; (k < locRow) && (l < locCol); k ++, l ++) {
+              if(board [k][l] !== colourOpponentPiece) {
+                  flag = 0;
+                  break;
+                }
+              }
+             if (flag) {
+               for (var k = row + 1, l = col + 1; (k < locRow) && (l < locCol); k ++, l ++) {
+                tempBoard [k][l] = colourPlayerPiece;
+               }
+               tempBoard [row][col] = colourPlayerPiece;
+               ct ++;
+              }
+
+             break;
+
+          case 'D4':
+             var locRow = -1;
+             var locCol = -1;
+             var flag = 1;
+
+             for(var k = row + 1, l = col - 1; (k <= maxRow && l >= 0); k ++, l --) {
+                   if(board [k][l] === colourPlayerPiece) {
+                     locRow = k;
+                     locCol = l;
+                      break;
+                    }
+              }
+
+             if(locRow === -1)  {
+               break;
+             }
+             for (var k = row + 1, l = col - 1; (k < locRow) && (l > locCol); k ++, l --) {
+              if(board [k][l] !== colourOpponentPiece) {
+                  flag = 0;
+                  break;
+                }
+              }
+             if (flag) {
+               for (var k = row + 1, l = col - 1; (k < locRow) && (l > locCol); k ++, l --) {
+                tempBoard [k][l] = colourPlayerPiece;
+               }
+                tempBoard [row][col] = colourPlayerPiece;
+                ct ++;
+              }
+
+             break;
+          }
+       }
+
+     if (ct)  {
+       return {count: ct, tempBoard: tempBoard, status: true};
+    }
+
+     return {count: ct, status: false};
+}
+
+  function createMove(board, row, col, turnIndexBeforeMove)
+  {
+       if (board === undefined) {
+      board = [
+       ['', '', '', '', '', '', '', ''],
+       ['', '', '', '', '', '', '', ''],
+       ['', '', '', '', '', '', '', ''],
+       ['', '', '', 'W', 'B', '', '', ''],
+       ['', '', '', 'B', 'W', '', '', ''],
+       ['', '', '', '', '', '', '', ''],
+       ['', '', '', '', '', '', '', ''],
+       ['', '', '', '', '', '', '', '']
+      ];
+       }
+       if (!isEmptySquare({board: board, row: row, col: col})) {
+          throw new Error("One can only make a move in an empty position!");;
+         }
+       var colourOpponentPiece = (turnIndexBeforeMove === 0 ?'W':'B');
+       var directions = [];
+       if (!desiredAdjPiece(board, row, col, directions, colourOpponentPiece)) {
+          throw new Error("One can only make a move next to the opponent's piece!");
+         }
+       var colourPlayerPiece = (turnIndexBeforeMove === 0 ? 'B':'W');
+       var result = sandwich(board, row, col, directions, colourPlayerPiece, colourOpponentPiece);
+       if (!result.status) {
+          throw new Error("One must sandwich opponent's pieces on every move!");
+         }
+
+       var firstOperation;
+       var boardAfterMove = copyObject(board);
+       boardAfterMove [row][col] = (turnIndexBeforeMove === 0 ? 'B':'W');
+       var end = gameOver(result.tempBoard);
+       if (end.status) {
+          firstOperation = {endMatch: {endMatchScores: (end.winner === 'B' ? [1,0]
+          : (end.winner === 'W' ? [0,1] : [0,0]))}};
+         }
+       else  {
+          var toBeOpponent = turnIndexBeforeMove == 0 ? 'W' : 'B';
+          var currentPlayer = turnIndexBeforeMove == 0 ? 'B' : 'W';
+          var turn = hasValidMoves(toBeOpponent, currentPlayer, result.tempBoard);
+          if (turn) {
+              firstOperation = {setTurn: {turnIndex: 1 - turnIndexBeforeMove}};
             }
-        }
-        return '';
-    }
-
-
-
-    /*
-    function isEqual(object1, object2) {
-        return JSON.stringify(object1) === JSON.stringify(object2);
-    }
-    */
-
-
-
-    //check if a move is legal and doesnt go outside the confines of the board
-    //this needs to be changed as well because we can have a blank space in the col
-
-    function checkPosition(row,col,board){
-        if(board[row][col] === undefined){
-            console.log("The position of row: " + row + "and col: " + col + "is outside of the board!");
-            return false;
-        }else{
-            return true;
-        }
-    }
-
-
-    //movement functions:
-    //Fox and hounds can only move to black squares
-    //Hound can move only forward but either left or right
-    //Fox can move in any direction but I am having trouble putting this in practice this is what I have going now
-
-    function isFoxMove(oldrow,oldcol,row,col){
-        //this is for the fox moving backwards
-        if( (row===oldrow+1 && col===oldcol+1) || (row===oldrow+1 && col===oldcol-1)){
-            console.log("Fox is moving backwards");
-            return true;
-        }
-        else if( (row==oldrow-1 && col==oldcol+1) || (row==oldrow-1 && col==oldcol-1) ){
-            console.log("Fox is moving forwards");
-            return true;
-        }else{
-            console.log("You cannot make this move fox can only go forwards of backwards on black squares");
-            return false;
-        }
-    }
-
-    //this is my modified hound move
-    function isHoundMove(oldrow,oldcol,row,col){
-        //this is for the fox moving backwards
-        if( (row==oldrow+1 && col==oldcol+1) || (row==oldrow+1 && col==oldcol-1)){
-            console.log("Hound is moving forwards");
-            return true;
-
-        }else{
-            console.log("You cannot make this move Hound can only go forwards on black squares");
-            return false;
-        }
-    }
-
-
-
-
-    function createMove(oldrow,oldcol,row,col,turnIndexBeforeMove,boardBeforeMove,turnIndex){
-
-        if(boardBeforeMove === undefined) {
-            boardBeforeMove = [
-                ['','H','','H','','H','','H'],
-                ['','','','','','','',''],
-                ['','','','','','','',''],
-                ['','','','','','','',''],
-                ['','','','','','','',''],
-                ['','','','','','','',''],
-                ['','','','','','','',''],
-                ['F','','','','','','','']
-
-            ];
-        }
-
-        //check the correctness of movement
-        if (checkPosition(row,col,boardBeforeMove) === false){  // checkPosition 01 - boundary
-            throw new Error("You cannot make a move outside of the board!");
-        }
-        //if(boardBeforeMove[oldrow][oldcol] === ''){
-        //throw new Error("One cannot make a move from an empty position!");
-        //}
-
-        if(boardBeforeMove[row][col] !== ''){
-            throw new Error("One can only make a move in an empty position!");
-        }
-
-
-
-
-        //var boardAfterMove = JSON.parse(JSON.stringify(boardBeforeMove));
-        var boardAfterMove = copyObject(boardBeforeMove);
-        boardAfterMove[row][col] = turnIndexBeforeMove===0?'F' : 'H';	    //Index => 0 than 'F', turnIndex => 1 than 'H'
-        if(boardAfterMove[oldrow][oldcol]===boardAfterMove[row][col]){
-            boardAfterMove[oldrow][oldcol] = '';
-        }else{
-            throw new Error("Thats not right!");
-        }
-
-        var winner = getWinner(row,col,boardAfterMove);
-
-        var firstOperation;
-        var score =[0,1];
-        if(winner !== ''){
-            if(winner === 'F'){
-                score = [1, 0];
+          else {
+              firstOperation = {setTurn: {turnIndex: turnIndexBeforeMove}};
             }
-            firstOperation = {endMatch: {endMatchScores: score}};
+         }
+       return         [firstOperation,
+                 {set: {key: 'board', value: result.tempBoard}},
+                 {set: {key: 'delta', value: {row: row, col: col}}}];
+}
 
-
-
-
-            console.log("player: "+ winner + " WINS!");
-        }else{
-            firstOperation = {setTurn: {turnIndex: 1 - turnIndexBeforeMove}};
-            if(turnIndex !== 1 - turnIndexBeforeMove){
-                throw new Error("current Index doesn't match!");
-            }
+  function hasValidMoves(colourPlayerPiece, colourOpponentPiece, board){
+    var flag = 0;
+    for (var i = 0; i <= maxRow; i ++) {
+      for (var j = 0; j <= maxCol; j ++) {
+        if (!isEmptySquare({board: board, row: i, col: j})) {
+        continue;
         }
-
-        if (isFoxMove(oldrow,oldcol,row,col)===true){
-            console.log("single fox movement");
-            return [firstOperation,
-                {set: {key: 'board', value: boardAfterMove}},
-                {set: {key: 'delta', value: {oldrow: oldrow, oldcol: oldcol, row: row, col: col}}}];
+        var directions = [];
+        if(!desiredAdjPiece(board, i, j, directions, colourOpponentPiece)) {
+          continue;
         }
-
-        if (isHoundMove(oldrow,oldcol,row,col)===true) {
-            console.log("single hound movement");
-            return [firstOperation,
-                {set: {key: 'board', value: boardAfterMove}},
-                {set: {key: 'delta', value: {oldrow: oldrow, oldcol: oldcol, row: row, col: col}}}];
+        var result = sandwich(board, i, j, directions, colourPlayerPiece, colourOpponentPiece);
+        if (!result.status) {
+          continue;
         }
-
-        else{
-            console.log("illegal move!");
-            throw new Error("Illegal move!");
+        if (result.count) {
+          flag = 1;
+          break;
         }
+      }
 
-
+      if (flag) {
+          break;
+        }
     }
-
-    function getInitialBoard() {
-        return [
-            ['','H','','H','','H','','H'],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['','','','','','','',''],
-            ['F','','','','','','','']
-        ];
+    if (flag) {
+      return true;
     }
+    return false;
+  }
 
-
-
-
-
-
-    function getExampleMoves(initialTurnIndex, initialState, arrayOfRowColSets){
-        var exampleMove = [];
-        var state = initialState;
-        var turnIndex = initialTurnIndex;
-        for(var i=0; i<arrayOfRowColSets.length; i++){
-            var rowColSets = arrayOfRowColSets[i];
-            var move = createMove(rowColSets.oldrow,rowColSets.oldcol,rowColSets.row, rowColSets.col,turnIndex,state.board,1-turnIndex);
-            var stateAfterMove = {board : move[1].set.value, delta : move[2].set.value};
-            exampleMove.push({
-                stateBeforeMove: state,
-                stateAfterMove: stateAfterMove,
-                turnIndexBeforeMove: turnIndex,
-                turnIndexAfterMove: 1 - turnIndex,
-                move: move,
-                comment: {en: rowColSets.comment}
-            });
-            state = stateAfterMove;
-            turnIndex = 1 - turnIndex;
+  function gameOver(board) {
+    var emptyCells = 0;
+    var result;
+    for (var i = 0; i <= maxRow; i ++) {
+       for (var j = 0; j <= maxCol; j ++) {
+         if (board [i][j] === '') {
+            emptyCells ++;
+           }
         }
-        return exampleMove;
+      }
+    if (!emptyCells) {
+       result = getWinner(board);
+       return {winner: result, status: true};
+      }
+
+    else if ((!hasValidMoves('W', 'B', board)) && (!hasValidMoves('B', 'W', board))) {
+    result = getWinner(board);
+    return {winner: result, status: true};
     }
+    return {status: false};
+   }
 
-    function getExampleGame(){
-        return getExampleMoves(0, {}, [
-            {oldrow: 7, oldcol: 0, row: 6, col: 1, comment: "Fox makes first move and moves forward to the right"},
+  function getWinner(board) {
+    var wCount = 0;
+    var bCount = 0;
+    for (var i = 0; i <= maxRow; i ++) {
+     for (var j = 0; j <= maxCol; j ++) {
+       if (board[i][j] === 'W') {
+          wCount ++;
+         }
+       else if (board[i][j] === 'B') {
+          bCount ++;
+         }
+      }
+     }
+    if (wCount > bCount) {
+       return 'W';
+      }
+    else if (bCount > wCount) {
+       return 'B';
+      }
+    return 'T';
+  }
 
-            {oldrow: 0, oldcol: 1, row: 1, col: 0, comment: "Hound moves down"},
+  function isMoveOk(params) {
+   var turnIndexBeforeMove = params.turnIndexBeforeMove;
+   var stateBeforeMove = params.stateBeforeMove;
+   var board = stateBeforeMove.board;
+   var move = params.move;
 
-            {oldrow: 6, oldcol: 1, row: 5, col: 0, comment: "Fox moves forward and to the left"},
+   try {
+     var row = move[2].set.value.row;
+     var col = move[2].set.value.col;
+     var expectedMove = createMove(board, row, col, turnIndexBeforeMove);
 
-            {oldrow: 0, oldcol: 3, row: 1, col: 2, comment: "Hound moves down and to the left"},
+     if (!isEqual(move, expectedMove)) {
+         return false;
+       }
+   } catch (e) {
+      return false;
+   }
+   return true;
+  }
 
-            {oldrow: 5, oldcol: 0, row: 4, col: 1, comment: "Fox moves forward and to the right"},
+  function exampleMoves(initTurnIndex, initState, arrayOfRowColComment) {
+  var state = initState;
+  var temp;
+  var store = [];
+  var turnIndex = initTurnIndex;
 
-            {oldrow: 0, oldcol: 5, row: 1, col: 4, comment: "Hound moves down and to right"},
+  for (var i = 0; i < arrayOfRowColComment.length; i ++) {
+    var rowColComment = arrayOfRowColComment[i];
 
-            {oldrow: 4, oldcol: 1, row: 3, col: 2, comment: "Fox moves up to the right"},
+    temp = createMove(state.board, rowColComment.row,
+              rowColComment.col, turnIndex);
 
-            {oldrow: 1, oldcol: 2, row: 2, col: 3, comment: "Hound moves down to the right"},
-
-            {oldrow: 3, oldcol: 2, row: 2, col: 1, comment:"Fox moves up to the right"},
-
-            {oldrow: 0, oldcol: 7, row: 1, col: 6, comment:"Hound Moves down"},
-
-            {oldrow: 2, oldcol: 1, row: 1, col: 2, comment:"Fox moves up and to the right"},
-
-            {oldrow: 1, oldcol: 0, row: 2, col: 1, comment:"Hound moves down"},
-
-            {oldrow: 1, oldcol: 2, row: 0, col: 1, comment:"Fox wins"}
-
-        ]);
-    }
+    var stateAfterMove = {board: temp[1].set.value, delta: temp[2].set.value};
+store.push({stateBeforeMove: state,
+       stateAfterMove: stateAfterMove,
+       turnIndexBeforeMove: turnIndex,
+       turnIndexAfterMove: temp[0].setTurn.turnIndex,
+       comment: {en: rowColComment.comment},
+       move: temp});
+turnIndex = temp[0].setTurn.turnIndex;
+state = stateAfterMove;
+}
+return store;
+}
 
 
-    function isMoveOk(params){
+
+  function exampleGame() {
+    return (exampleMoves(0,
+               {board:[['','','B','W','W','W','',''],
+                       ['','','B','B','W','W','',''],
+                       ['W','W','B','W','W','W','B','B'],
+                       ['W','B','W','W','B','W','B','B'],
+                       ['W','W','B','W','B','B','B','B'],
+                       ['W','W','W','B','W','B','W','W'],
+                       ['','','W','W','B','B','',''],
+                       ['','','W','B','B','B','','']],
+               delta: {row: 2, col: 0}},
+               [{row: 0, col: 6, comment: "Black plays on square (0,6)"}
+               ,
+                   {row: 0, col: 1, comment: "White plays on square (0,1)"}
+                   ,
+                   {row: 7, col: 1, comment: "Black plays row 7, col 1"},
+                {row: 6, col: 6, comment: "Uh oh, white plays in x-Square"},
+                   {row: 7, col: 7, comment: "Black captures bottom-left corner!"},
+                  {row: 6, col: 7, comment: "White plays (6,7)"}
+                   ]));
+  }
+
+  function riddles() {
+    return([
+          exampleMoves(1,
+               {board:[['','','B','W','W','W','B',''],
+                       ['','B','B','B','W','W','W',''],
+                       ['W','W','B','W','W','W','B','B'],
+                       ['W','B','W','W','B','W','B','B'],
+                       ['W','W','B','W','B','B','B','B'],
+                       ['W','W','W','B','W','B','W','W'],
+                       ['','','W','W','B','B','',''],
+                       ['','','W','B','B','B','','']],
+               delta: {row: 2, col: 0}},
+               [{row: 0, col: 0, comment: "Where should White play to get an advantage on his next turn?"},
+                   {row: 6, col: 6, comment: "Black plays row 6, col 6"},
+                   {row: 7, col: 7, comment: "White captures diagonal!"}]),
+        exampleMoves(0,
+               {board:[['','B','B','B','B','B','B',''],
+                       ['','','B','B','W','W','',''],
+                       ['W','W','B','W','W','W','B','B'],
+                       ['W','B','W','W','B','W','B','B'],
+                       ['W','W','B','W','B','B','B','B'],
+                       ['W','W','W','B','W','B','W','W'],
+                       ['','','W','W','B','B','',''],
+                       ['','','B','B','B','B','B','']],
+               delta: {row: 3, col: 0}},
+               [{row: 7, col: 1, comment: "Where should Black play to not give White an advantage on his next turn?"},
+               {row: 1, col: 7, comment: "White in (1,7)"}])
+          ]
+        );
+  }
+
+  function createComputerMove(board, turnIndexBeforeMove){
+    var possibleMoves = [];
+    var i, j;
+    for(i = 0; i < 8; i ++){
+      for(j =0; j < 8; j ++){
         try{
-            var move = params.move;
-            var winflag = move[0].endMatch === undefined? false : true;
-            var turnIndexBeforeMove = params.turnIndexBeforeMove;
-            var stateBeforeMove = params.stateBeforeMove;
-            var turnIndex = winflag === false? move[0].setTurn.turnIndex : 1-turnIndexBeforeMove;
-
-            var deltaValue = move[2].set.value;
-            var oldrow = deltaValue.oldrow;
-            var oldcol = deltaValue.oldcol;
-            var row = deltaValue.row;
-            var col = deltaValue.col;
-            var boardBeforeMove = stateBeforeMove.board;
-            var boardAfterMove = move[1].set.value;
-
-            var expectedMove = createMove(oldrow,oldcol,row,col,turnIndexBeforeMove,boardBeforeMove,turnIndex);
-            if(!isEqual(move[1], expectedMove[1]) || !isEqual(move[2], expectedMove[2])){
-                return false;
-            }
-        } catch(e) {
-            return false;
-        }
-        return true;
+           possibleMoves.push(createMove(board, i, j, turnIndexBeforeMove));
+       } catch(e){
+         //invalid move, don't add it to the array.
+       }
+     }
     }
+    var randomMove = possibleMoves[Math.floor(Math.random()*possibleMoves.length)];
+    return randomMove;
+  }
 
-
-
-
-    this.getInitialBoard = getInitialBoard;
-    this.createMove = createMove;
-    this.isMoveOk = isMoveOk;
-    this.getExampleGame = getExampleGame;
-
+  this.createMove = createMove;
+  this.isMoveOk = isMoveOk;
+  this.exampleGame = exampleGame;
+  this.riddles = riddles;
+  this.createComputerMove = createComputerMove;
 });
-
