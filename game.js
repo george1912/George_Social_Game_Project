@@ -55,8 +55,8 @@ angular.module('myApp', ['ngTouch'])
             }
         }
 
-        //here are where the errors are
-        updateUI({stateAfterMove: {}, turnIndexAfterMove: 0, yourPlayerIndex: -2});
+        //This is giving me problems!
+        updateUI({stateAfterMove: {}, turnIndexAfterMove: 0, yourPlayerIndex: -1});
 
         $scope.cellClicked = function (row, col) {
             $log.info(["Clicked on cell:", row, col]);
