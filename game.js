@@ -11,9 +11,10 @@ angular.module('myApp', ['ngTouch'])
         var moveAudioHound = new Audio('audio/move1.mp3');
         moveAudioHound.load();
 
+        //adding scope
         function sendComputerMove(){
             gameService.makeMove(
-                gameLogic.createComputerMove($scope.board, oldrow, oldcol, $scope.turnIndex,turnIndexBeforeMove,boardBeforeMove));
+                gameLogic.createComputerMove($scope.board, $scope.oldrow, $scope.oldcol, $scope.turnIndex,$scope.turnIndexBeforeMove, boardBeforeMove));
 
         }
 
@@ -46,7 +47,7 @@ angular.module('myApp', ['ngTouch'])
             $scope.isYourTurn = params.turnIndexAfterMove >= 0 && // game is ongoing
                 params.yourPlayerIndex === params.turnIndexAfterMove; //it's my turn
             $scope.turnIndex = params.turnIndexAfterMove;
-            // Is it the computer's turn?
+            // check computer turn
             if ($scope.isYourTurn
                 && params.playersInfo[params.yourPlayerIndex].playerId === '') {
                 $scope.isYourTurn = false;
@@ -54,6 +55,7 @@ angular.module('myApp', ['ngTouch'])
             }
         }
 
+        //here are where the errors are
         updateUI({stateAfterMove: {}, turnIndexAfterMove: 0, yourPlayerIndex: -2});
 
         $scope.cellClicked = function (row, col) {
@@ -63,7 +65,9 @@ angular.module('myApp', ['ngTouch'])
             }
 
             try {
-                var move = gameLogic.createMove($scope.board, oldrow, oldcol, row, col, $scope.turnIndex, turnIndexBeforeMove, boardBeforeMove);
+
+                //adding scope
+                var move = gameLogic.createMove($scope.board, $scope.oldrow, $scope.oldcol, row, col, $scope.turnIndex, turnIndexBeforeMove, boardBeforeMove);
 
                 $scope.isYourTurn = false;
 
