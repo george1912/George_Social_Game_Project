@@ -1,6 +1,12 @@
+//stays same no need to update
 'use strict';
 
-angular.module('myApp.gameLogic',[]).service('gameLogic',function(){
+//adding proper angular
+angular.module('myApp').service('gameLogic', function()  {
+
+    //add here for chain of commands
+    //add here for a second chain
+
 
     function isEqual(object1, object2) {
         return angular.equals(object1, object2);
@@ -114,13 +120,17 @@ angular.module('myApp.gameLogic',[]).service('gameLogic',function(){
         if( (row===oldrow+1 && col===oldcol+1) || (row===oldrow+1 && col===oldcol-1)){
             console.log("Fox is moving backwards");
             return true;
+            //add chain
         }
         else if( (row==oldrow-1 && col==oldcol+1) || (row==oldrow-1 && col==oldcol-1) ){
             console.log("Fox is moving forwards");
             return true;
+            //add chain
+
         }else{
             console.log("You cannot make this move fox can only go forwards of backwards on black squares");
             return false;
+
         }
     }
 
@@ -295,6 +305,37 @@ angular.module('myApp.gameLogic',[]).service('gameLogic',function(){
     }
 
 
+    //adding computer move that takes in possible moves
+    //have old row and old col set
+    //we do  loop for 1-7 values of row and col
+    //combine see is there is a match and have the computer do its magic
+    function createComputerMove(board, oldrow, oldcol, turnIndexBeforeMove,boardBeforeMove,turnIndex){
+
+        var possibleMoves = [];
+        var i, j ;
+
+        for(i = 0; i < 8; i ++){
+            for(j =0; j < 8; j ++) {
+
+
+
+                    try {
+                        possibleMoves.push(createMove(board, oldrow, oldcol, i.row, j.col, turnIndexBeforeMove,boardBeforeMove,turnIndex));
+                    } catch (e) {
+
+                    }
+
+
+            }
+        }
+        var randomMove = possibleMoves[Math.floor(Math.random()*possibleMoves.length)];
+        return randomMove;
+    }
+
+
+
+
+
     function isMoveOk(params){
         try{
             var move = params.move;
@@ -328,6 +369,8 @@ angular.module('myApp.gameLogic',[]).service('gameLogic',function(){
     this.createMove = createMove;
     this.isMoveOk = isMoveOk;
     this.getExampleGame = getExampleGame;
+    //adding create computer move
+    this.createComputerMove = createComputerMove;
 
 });
 
