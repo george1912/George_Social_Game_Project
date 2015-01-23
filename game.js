@@ -132,7 +132,7 @@ angular.module('myApp', ['ngTouch'])
             gameDeveloperEmail: "george.ulloa1990@gmail.com",
             minNumberOfPlayers: 2,
             maxNumberOfPlayers: 2,
-            exampleGame: gameLogic.exampleGame(),
+            exampleGame: gameLogic.getExampleGame(),
             isMoveOk: gameLogic.isMoveOk,
             updateUI: updateUI
         });
