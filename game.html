@@ -3,33 +3,58 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Fox Hounds</title>
-    <meta name="description" content="FoxHounds game">
+    <title>Game Of The Amazons</title>
+    <meta name="description" content="Game of the Amazons">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular-touch.min.js"></script>
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script src="ngDraggable.js"></script>
     <script src="game.js"></script>
     <script src="gameLogic.js"></script>
     <script src="http://yoav-zibin.github.io/emulator/gameService.js"></script>
     <script src="http://yoav-zibin.github.io/emulator/messageService.js"></script>
-    <script src="http://yoav-zibin.github.io/emulator/scaleBodyService.js"></script>
     <script src="http://yoav-zibin.github.io/emulator/stateService.js"></script>
+
     <link rel="stylesheet" type="text/css" href="game.css">
 </head>
 <body ng-controller="Ctrl">
-<table cellpadding="0">
-    <tr ng-repeat="row in [0, 1, 2, 3, 4, 5, 6, 7]">
-        <td ng-repeat="col in [0, 1, 2, 3, 4, 5, 6, 7]"
-            ng-click="cellClicked(row, col)">
-            <div ng-class="{cell:true}">
+<table ng-class='{table:true}'>
+    <tr ng-repeat="row in [0,1,2,3,4,5,6,7,8,9]">
 
 
-                <img src = "img/piece1.jpg" div ng-class ="{cell:true}" ng-show = "oddBox(row, col)">
-                <img src = "img/piece2.jpg" ng-class = "{cell:true}" ng-show = "evenBox(row, col)">
+        <td ng-repeat="cell in [0,1,2,3,4,5,6,7,8,9]"
 
-                <img src = "img/hound4.png" ng-class ="{posit2: true, rot: true, slowlyAppear: shouldSlowlyAppear(row, col)}" ng-show = "isHound(row, col)">
-                <img src = "img/fox.png" ng-class ="{posit3: true,  rot: true, slowlyAppear: shouldSlowlyAppear(row, col)}" ng-show = "isFox(row, col)">
-            </div>
+            ng-class="{cell:isBlank($parent.$index,$index),
+        		   	 o:$parent.$index%2===$index%2,
+        		   	 e:$parent.$index%2!==$index%2
+        		   	}"
+
+
+
+            ng-drop="true"
+
+            ng-drop-success="onDropComplete($data,$event,$parent.$index,$index)"
+
+            ng-click="cellClicked($parent.$index, $index)">
+
+            <div ng-class="{FoxPiece:true, FoxPieceSelect:isFoxTurn(), FoxOrHoundTurn:isSelected($parent.$index, $index)}"
+
+                 ng-drag="isFoxTurn"
+
+                 ng-drag-success="onDrag($data,$event,$parent.$index,$index)"
+
+
+                 ng-show="isFox($parent.$index,$index,'F')"></div>
+
+            <div ng-class="{HoundPiece:true, FoxPieceSelect:isHoundTurn(), FoxOrHoundTurn:isSelected($parent.$index, $index)}"
+
+                 ng-drag="isHoundTurn()"
+
+                 ng-drag-success="onDrag($data,$event,$parent.$index,$index)"
+
+                 ng-show="isHound($parent.$index,$index,'H')"></div>
+
+
         </td>
     </tr>
 </table>

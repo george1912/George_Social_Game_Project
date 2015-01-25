@@ -309,7 +309,7 @@ angular.module('myApp').service('gameLogic', function()  {
     //have old row and old col set
     //we do  loop for 1-7 values of row and col
     //combine see is there is a match and have the computer do its magic
-    function createComputerMove(board, oldrow, oldcol, turnIndexBeforeMove,boardBeforeMove,turnIndex){
+    function createComputerMove(oldrow, oldcol, turnIndexBeforeMove,boardBeforeMove,turnIndex){
 
         var possibleMoves = [];
         var i, j ;
@@ -320,7 +320,7 @@ angular.module('myApp').service('gameLogic', function()  {
 
 
                     try {
-                        possibleMoves.push(createMove(board, oldrow, oldcol, i.row, j.col, turnIndexBeforeMove,boardBeforeMove,turnIndex));
+                        possibleMoves.push(createMove( oldrow, oldcol, i.row, j.col, turnIndexBeforeMove,boardBeforeMove,turnIndex));
                     } catch (e) {
 
                     }
