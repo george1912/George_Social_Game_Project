@@ -182,6 +182,7 @@ angular.module('myApp').service('gameLogic', function()  {
 
 
         //var boardAfterMove = JSON.parse(JSON.stringify(boardBeforeMove));
+
         var boardAfterMove = copyObject(boardBeforeMove);
         boardAfterMove[row][col] = turnIndexBeforeMove===0?'F' : 'H';	    //Index => 0 than 'F', turnIndex => 1 than 'H'
         if(boardAfterMove[oldrow][oldcol]===boardAfterMove[row][col]){
@@ -304,23 +305,28 @@ angular.module('myApp').service('gameLogic', function()  {
         ]);
     }
 
-
+    /*
     //adding computer move that takes in possible moves
     //have old row and old col set
     //we do  loop for 1-7 values of row and col
     //combine see is there is a match and have the computer do its magic
-    function createComputerMove(oldrow, oldcol, turnIndexBeforeMove,boardBeforeMove,turnIndex){
+    //function createComputerMove(oldrow, oldcol, turnIndexBeforeMove,boardBeforeMove,turnIndex){
 
+        //array of possible moves
         var possibleMoves = [];
+        var for row and col
         var i, j ;
 
+        var row, col;
+
+        let us loop through this setting numbers 1-7
         for(i = 0; i < 8; i ++){
             for(j =0; j < 8; j ++) {
 
 
-
+                    plug in those values into create move
                     try {
-                        possibleMoves.push(createMove( oldrow, oldcol, i.row, j.col, turnIndexBeforeMove,boardBeforeMove,turnIndex));
+                        possibleMoves.push(createMove( oldrow, oldcol, row.i, col.j, turnIndexBeforeMove,boardBeforeMove,turnIndex));
                     } catch (e) {
 
                     }
@@ -331,7 +337,7 @@ angular.module('myApp').service('gameLogic', function()  {
         var randomMove = possibleMoves[Math.floor(Math.random()*possibleMoves.length)];
         return randomMove;
     }
-
+*/
 
 
 
@@ -370,7 +376,7 @@ angular.module('myApp').service('gameLogic', function()  {
     this.isMoveOk = isMoveOk;
     this.getExampleGame = getExampleGame;
     //adding create computer move
-    this.createComputerMove = createComputerMove;
+    //this.createComputerMove = createComputerMove;
 
 });
 

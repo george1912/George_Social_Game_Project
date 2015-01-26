@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Game Of The Amazons</title>
-    <meta name="description" content="Game of the Amazons">
+    <title>Fox And Hounds</title>
+    <meta name="description" content="Fox and Hounds">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
@@ -20,7 +20,6 @@
 <body ng-controller="Ctrl">
 <table ng-class='{table:true}'>
     <tr ng-repeat="row in [0,1,2,3,4,5,6,7,8,9]">
-
 
         <td ng-repeat="cell in [0,1,2,3,4,5,6,7,8,9]"
 
@@ -39,12 +38,13 @@
 
             <div ng-class="{FoxPiece:true, FoxPieceSelect:isFoxTurn(), FoxOrHoundTurn:isSelected($parent.$index, $index)}"
 
-                 ng-drag="isFoxTurn"
+                 ng-drag="isFoxTurn()"
+
 
                  ng-drag-success="onDrag($data,$event,$parent.$index,$index)"
 
 
-                 ng-show="isFox($parent.$index,$index,'F')"></div>
+                 ng-show="isPiece($parent.$index,$index,'F')"></div>
 
             <div ng-class="{HoundPiece:true, FoxPieceSelect:isHoundTurn(), FoxOrHoundTurn:isSelected($parent.$index, $index)}"
 
@@ -52,11 +52,11 @@
 
                  ng-drag-success="onDrag($data,$event,$parent.$index,$index)"
 
-                 ng-show="isHound($parent.$index,$index,'H')"></div>
+                 ng-show="isPiece($parent.$index,$index,'H')"></div>
 
 
-        </td>
-    </tr>
+        
+
 </table>
 </body>
 </html>
