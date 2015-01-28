@@ -139,13 +139,13 @@ var Fox_Hounds = (function () {
 
 
         if( (turnindex === 1 && row==oldrow+1 && col==oldcol+1)) {
-            console.log("Hound is moving forwards!!!");
+            console.log("Hound is moving forwards to the right!!!");
             return true;
 
         }
 
         if( (turnindex === 1 && row==oldrow+1 && col==oldcol-1)){
-            console.log("Hound is moving forwards!!!");
+            console.log("Hound is moving forwards to the left!!!");
             return true;
 
         }else {
