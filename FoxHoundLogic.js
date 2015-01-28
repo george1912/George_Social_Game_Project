@@ -1,63 +1,71 @@
+//this is FOX HOUND LOGIC 2
 var Fox_Hounds = (function () {
 
 
-    function getWinner(row,col,board){
+    function getWinner(board) {
 
-        //fox wins if he is located in any of the to right strings this will create a win condition for the fox
-        if (board[row][col] === 'F')
+        //fox  reaches the top of the board
+        if (board[0][1] === 'F' || board[0][3] === 'F' || board[0][5] === 'F' || board[0][7] === 'F')
         {
-            if (board[0][1] === 'F' || board[0][3] === 'F' || board[0][5] === 'F' || board[0][7] === 'F')
-            {
-                return 'F';
-            }
+            return 'F';
         }
-        else if (board[row][col] === 'H')
+
+        //hound reaches bottom of the board
+        if (board[7][0] === 'H' && board[7][2] === 'H' && board[7][4] === 'H' && board[7][6] === 'H')
         {
-            if (board[7][0] === 'H' && board[7][2] === 'H' && board[7][4] === 'H' && board[7][6] === 'H')
-            {
-                return 'H';
-            }
+            return 'H';
         }
+
+        //fox gets boxed in corner bottom left
         if (board[7][0] === 'F' && board[6][1] === 'H')
         {
             return 'H';
         }
-        else if (board[1][0] === 'F')
+
+        //fox gets boxed in corner top left
+        if (board[1][0] === 'F'&& board[0][1] === 'H' && board[2][1] === 'H')
         {
-            if (board[0][1] === 'H' && board[2][1] === 'H')
-                return 'H';
+
+            return 'H';
         }
-        else if (board[3][0] === 'F')
+
+
+        //fox gets boxed in left side
+        if (board[3][0] === 'F' && board[2][1] === 'H' && board[4][1] === 'H')
         {
-            if (board[2][1] === 'H' && board[4][1] === 'H')
-                return 'H';
+            return 'H';
         }
-        else if (board[5][0] === 'F')
+
+        //middle left
+        if (board[5][0] === 'F' && board[4][1] === 'H' && board[6][1] === 'H')
         {
-            if (board[4][1] === 'H' && board[6][1] === 'H')
-                return 'H';
+
+            return 'H';
         }
-        else if (board[2][7] === 'F')
+
+
+        //top right
+        if (board[2][7] === 'F' && board[1][6] === 'H' && board[3][6] === 'H')
         {
-            if (board[1][6] === 'H' && board[3][6] === 'H')
-            {
-                return 'H';
-            }
+
+            return 'H';
         }
-        else if (board[4][7] === 'F')
+
+        //middle right
+        if (board[4][7] === 'F' && board[3][6] === 'H' && board[5][6] === 'H')
         {
-            if (board[3][6] === 'H' && board[5][6] === 'H')
-            {
-                return 'H';
-            }
+            return 'H';
         }
-        else if (board[6][7] === 'F')
+
+        //bottom right
+        if (board[6][7] === 'F'&& board[5][6] === 'H' && board[7][6] === 'H')
         {
-            if (board[5][6] === 'H' && board[7][6] === 'H')
-            {
-                return 'H';
-            }
+
+            return 'H';
+
         }
+
+        //catch all statement
         else
         {
             for (var i=1; i<6; i++)
@@ -71,7 +79,6 @@ var Fox_Hounds = (function () {
         }
         return '';
     }
-
 
 
 
@@ -94,20 +101,71 @@ var Fox_Hounds = (function () {
         }
     }
 
-
+//  ADDED TURN INDEX
     //movement functions:
     //Fox and hounds can only move to black squares
     //Hound can move only forward but either left or right
     //Fox can move in any direction but I am having trouble putting this in practice this is what I have going now
 
-    function isFoxMove(oldrow,oldcol,row,col){
-        //this is for the fox moving backwards
-        if( (row===oldrow+1 && col===oldcol+1) || (row===oldrow+1 && col===oldcol-1)){
-            console.log("Fox is moving backwards");
+    //adding correct move function to get total moves
+
+    function isCorrectMove(oldrow,oldcol,row,col,turnindex){
+
+        if( (turnindex === 0 && row===oldrow+1 && col===oldcol+1)){
+            console.log("Fox is moving ACTUALLY backwards to the right");
             return true;
         }
-        else if( (row==oldrow-1 && col==oldcol+1) || (row==oldrow-1 && col==oldcol-1) ){
-            console.log("Fox is moving forwards");
+
+        if( (turnindex === 0 && row===oldrow+1 && col===oldcol-1)){
+            console.log("Fox is moving ACTUALLY backwards and to the left ");
+            return true;
+        }
+
+
+
+        if( (turnindex === 0 && row==oldrow-1 && col==oldcol+1) ){
+            console.log("Fox is moving ACTUALLY forwards to the right!!!");
+            return true;
+
+        }
+
+
+        if( (turnindex === 0 && row==oldrow-1 && col==oldcol-1) ){
+            console.log("Fox is moving ACTUALLY forwards and to the left!!!");
+            return true;
+
+        }
+
+
+
+        if( (turnindex === 1 && row==oldrow+1 && col==oldcol+1)) {
+            console.log("Hound is moving forwards!!!");
+            return true;
+
+        }
+
+        if( (turnindex === 1 && row==oldrow+1 && col==oldcol-1)){
+            console.log("Hound is moving forwards!!!");
+            return true;
+
+        }else {
+            console.log("Piece is not moving correctly");
+            return false;
+        }
+
+    }
+
+
+
+    /*
+    function isFoxMove(oldrow,oldcol,row,col, turnindex){
+        //this is for the fox moving backwards
+        if( (turnindex === 1 && row===oldrow+1 && col===oldcol+1) || (row===oldrow+1 && col===oldcol-1)){
+            console.log("Fox is moving ACTUALLY backwards");
+            return true;
+        }
+        else if( (turnindex === 1 && row==oldrow-1 && col==oldcol+1) || (row==oldrow-1 && col==oldcol-1) ){
+            console.log("Fox is moving ACTUALLY forwards!!!");
             return true;
         }else{
             console.log("You cannot make this move fox can only go forwards of backwards on black squares");
@@ -116,10 +174,10 @@ var Fox_Hounds = (function () {
     }
 
     //this is my modified hound move
-    function isHoundMove(oldrow,oldcol,row,col){
+    function isHoundMove(oldrow,oldcol,row,col, turnindex){
         //this is for the fox moving backwards
-        if( (row==oldrow+1 && col==oldcol+1) || (row==oldrow+1 && col==oldcol-1)){
-            console.log("Hound is moving forwards");
+        if( (turnindex === 0, row==oldrow+1 && col==oldcol+1) || (row==oldrow+1 && col==oldcol-1)){
+            console.log("Hound is moving forwards!!!");
             return true;
 
         }else{
@@ -127,7 +185,7 @@ var Fox_Hounds = (function () {
             return false;
         }
     }
-
+     */
 
 
 
@@ -151,9 +209,7 @@ var Fox_Hounds = (function () {
         if (checkPosition(row,col,boardBeforeMove) === false){  // checkPosition 01 - boundary
             throw new Error("You cannot make a move outside of the board!");
         }
-        //if(boardBeforeMove[oldrow][oldcol] === ''){
-        //throw new Error("One cannot make a move from an empty position!");
-        //}
+
 
         if(boardBeforeMove[row][col] !== ''){
             throw new Error("One can only make a move in an empty position!");
@@ -161,22 +217,28 @@ var Fox_Hounds = (function () {
 
 
 
-
+        //I need to update the correct Turn tokens
         var boardAfterMove = JSON.parse(JSON.stringify(boardBeforeMove));
-        boardAfterMove[row][col] = turnIndexBeforeMove===0?'F' : 'H';	    //Index => 0 than 'F', turnIndex => 1 than 'H'
+
+        boardAfterMove[row][col] = turnIndexBeforeMove === 0 ?'F' : 'H';	    //Index => 0 then 'F', turnIndex => 1 then 'H'
+
         if(boardAfterMove[oldrow][oldcol]===boardAfterMove[row][col]){
             boardAfterMove[oldrow][oldcol] = '';
+
         }else{
-            throw new Error("Thats not right!");
+            throw new Error("Thats not right not the correct token!!");
         }
 
-        var winner = getWinner(row,col,boardAfterMove);
+        var winner = getWinner(boardAfterMove);
 
         var firstOperation;
+
         var score =[0,1];
+
         if(winner !== ''){
             if(winner === 'F'){
                 score = [1, 0];
+
             }
             firstOperation = {endMatch: {endMatchScores: score}};
 
@@ -191,15 +253,31 @@ var Fox_Hounds = (function () {
             }
         }
 
-        if (isFoxMove(oldrow,oldcol,row,col)===true){
-            console.log("single fox movement");
+
+        if (isCorrectMove(oldrow,oldcol,row,col,turnIndexBeforeMove)=== true){
+            console.log("correct piece Movement!!!");
             return [firstOperation,
                 {set: {key: 'board', value: boardAfterMove}},
                 {set: {key: 'delta', value: {oldrow: oldrow, oldcol: oldcol, row: row, col: col}}}];
         }
 
-        if (isHoundMove(oldrow,oldcol,row,col)===true) {
-            console.log("single hound movement");
+
+
+        /*
+        //CHANGE TURN INDEX? TO BEFORE MOVE?
+        if (isFoxMove(oldrow,oldcol,row,col,turnIndex)===true){
+            console.log("single fox movement turn index added and set to zero!!!");
+            return [firstOperation,
+                {set: {key: 'board', value: boardAfterMove}},
+                {set: {key: 'delta', value: {oldrow: oldrow, oldcol: oldcol, row: row, col: col}}}];
+        }
+
+        */
+        //CHANGE TURN INDEX? to TURN INDEX BEFORE MOVE?
+
+/*
+        if (isHoundMove(oldrow,oldcol,row,col,turnIndex)===true) {
+            console.log("single hound movement turn index added and set to zero!!!! ");
             return [firstOperation,
                 {set: {key: 'board', value: boardAfterMove}},
                 {set: {key: 'delta', value: {oldrow: oldrow, oldcol: oldcol, row: row, col: col}}}];
@@ -209,7 +287,7 @@ var Fox_Hounds = (function () {
             console.log("illegal move!");
             throw new Error("Illegal move!");
         }
-
+ */
 
     }
 
