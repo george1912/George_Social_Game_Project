@@ -192,7 +192,7 @@ angular.module('myApp',['ngTouch','ngDraggable'])
     	var possibleMoves = [];
     	var i, j;
     	var tempMove;
-    	for(i=1; i<5; i++){
+    	for(i=1; i<4; i++){
     		for(j=1; j<$scope.board[i].length; j++){
     			try{
     				tempMove = gameLogic.createMove(row, col, i, j, $scope.turnIndex, $scope.board);
@@ -215,7 +215,7 @@ angular.module('myApp',['ngTouch','ngDraggable'])
     	var possibleMoves = [];
     	var i, j;
     	var tempMove;
-    	for(i=0; i<5; i++){
+    	for(i=0; i<4; i++){
     		for(j=0; j<$scope.boolboard[i].length; j++){
     			$scope.boolboard[i][j] = false;
     			try{
