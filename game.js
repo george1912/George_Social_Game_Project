@@ -33,11 +33,11 @@ angular.module('myApp',['ngTouch','ngDraggable'])
 	$scope.newposition = 0;
     $scope.newpositionTop = 0;
     $scope.setPagePosition = function(index, parentIndex) {
-        $scope.newposition =  $scope.map[parentIndex][index][0] * 40.2 - 63 + 'px'
+        $scope.newposition =  $scope.map[parentIndex][index][0] * 400.2 - 63 + 'px'
         return $scope.newposition;
     }
     $scope.setPagePositionTop = function(parentIndex, index){
-        $scope.newpositionTop = $scope.map[parentIndex][index][1] * 35.6 -19 + 'px'
+        $scope.newpositionTop = $scope.map[parentIndex][index][1] * 350.6 -19 + 'px'
         return $scope.newpositionTop;
     }
     
