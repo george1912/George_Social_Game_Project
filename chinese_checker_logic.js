@@ -1,17 +1,5 @@
-'use strict';
 
-angular.module('myApp').service('gameLogic',function(){
-	
-	var chain_1;
-	var chain_2;
-	
-	function isEqual(object1, object2) {
-    	return angular.equals(object1, object2);
-    }
-    
-    function copyObject(object) {
-    	return angular.copy(object);
-    }
+var chinese_checker = (function () {
 	
 	function getWinner(board){
 	var winStringX = JSON.stringify(
@@ -37,11 +25,11 @@ angular.module('myApp').service('gameLogic',function(){
 
 
 
-/*
+
 function isEqual(object1, object2) {
     return JSON.stringify(object1) === JSON.stringify(object2);
   }
-*/
+
 
 function checkPosition(row,col,board){
 	if(board[row][col] === '' || board[row][col] === undefined){
@@ -56,14 +44,10 @@ function checkPosition(row,col,board){
 function isOneStepMove(oldrow,oldcol,row,col){
 	if( (Math.abs(oldrow-row)+Math.abs(oldcol-col))==1 ){
 		console.log("move is one step around location");
-		chain_1 = {set: {key: 'isChain', value: false}};
-		chain_2 = {set: {key:'chainValue',value: [[oldrow,oldcol],[row,col]]}};
 		return true;
 	}
 	else if( (row==oldrow+1 && col==oldcol+1) || (row==oldrow-1 && col==oldcol-1) ){
 		console.log("move is one step around location");
-		chain_1 = {set: {key: 'isChain', value: false}};
-		chain_2 = {set: {key:'chainValue',value: [[oldrow,oldcol],[row,col]]}};
 		return true;
 	}else{
 		console.log("move takes more steps around location");
@@ -123,25 +107,20 @@ function isContain(arr,value) {
 	return false;
 }
 
-// the new version of isMultiStepMoves now can trace 
-// the movements of each step within this multi-jump
-// make sure the history logs jump always with steps
-// greater or equal to two.
+
 function isMultiStepMoves(oldrow,oldcol,row,col,boardBeforeMove){
 	var key = true;
 	var _row;
 	var _col;
 	var tempPool;
-	var historyPoint;
 	var pointPool = new Array();
-	pointPool[0] = [oldrow,oldcol,true,[[oldrow,oldcol]]];
+	pointPool[0] = [oldrow,oldcol,true];
 	while(true){
 	 	key = false;
 		for(var i=0; i<pointPool.length; i++){
 			if(pointPool[i][2] == true){
 				_row = pointPool[i][0];
 				_col = pointPool[i][1];
-				historyPoint = pointPool[i][3];
 				pointPool[i][2] = false;
 				key = true;
 				break;
@@ -159,30 +138,17 @@ function isMultiStepMoves(oldrow,oldcol,row,col,boardBeforeMove){
 			if(isContain(pointPool,tempPool[j])==true){
 				continue;
 			}
-			historyPoint.push([tempPool[j][0],tempPool[j][1]]);
-			var tempHistory = JSON.parse(JSON.stringify(historyPoint));
-			pointPool[pointPool.length] = [tempPool[j][0],tempPool[j][1],true,tempHistory];
-			if(tempPool[j][0]==row && tempPool[j][1]==col){
-				console.log(historyPoint);
-				if(historyPoint.length===2){
-					chain_1 = {set: {key: 'isChain', value: false}};
-					chain_2 = {set: {key:'chainValue',value: historyPoint}};
-				}else{
-					chain_1 = {set: {key: 'isChain', value: true}};
-					chain_2 = {set: {key:'chainValue',value: historyPoint}};
-				}
-				return true;
-			}
-			historyPoint.pop();
+			pointPool[pointPool.length] = [tempPool[j][0],tempPool[j][1],true];
 		}
+		if(isContain(pointPool,[row,col]) == true){
+			return true;
+		}	
 	}
-	chain_1 = {};
-	chain_2 = {};
 	return false;	
 }
 
 
-function createMove(oldrow,oldcol,row,col,turnIndexBeforeMove,boardBeforeMove){ 
+function createMove(oldrow,oldcol,row,col,turnIndexBeforeMove,boardBeforeMove,turnIndex){ 
 	
 	if(boardBeforeMove === undefined) {
 		boardBeforeMove = [
@@ -215,8 +181,7 @@ function createMove(oldrow,oldcol,row,col,turnIndexBeforeMove,boardBeforeMove){
   	if(boardBeforeMove[row][col] !== 'a'){
   		throw new Error("One can only make a move in an empty position!");
   	}
-  	//var boardAfterMove = JSON.parse(JSON.stringify(boardBeforeMove));
-  	var boardAfterMove = copyObject(boardBeforeMove);
+  	var boardAfterMove = JSON.parse(JSON.stringify(boardBeforeMove));
   	boardAfterMove[row][col] = turnIndexBeforeMove===0?'O' : 'X';	    //Index => 0 than 'O', turnIndex => 1 than 'X'
   	if(boardAfterMove[oldrow][oldcol]===boardAfterMove[row][col]){
 		boardAfterMove[oldrow][oldcol] = 'a';
@@ -227,7 +192,6 @@ function createMove(oldrow,oldcol,row,col,turnIndexBeforeMove,boardBeforeMove){
 	var winner = getWinner(boardAfterMove);
 	var firstOperation;
 	var score = [0, 1];
-	var noWinner = false;
 	if(winner !== ''){
 		if(winner === 'O'){
 			score = [1, 0];
@@ -236,35 +200,23 @@ function createMove(oldrow,oldcol,row,col,turnIndexBeforeMove,boardBeforeMove){
         
         console.log("player: "+ winner + " WIN!");
 	}else{
-		noWinner = true;
-		//firstOperation = {setTurn: {turnIndex: 1 - turnIndexBeforeMove}};
+		firstOperation = {setTurn: {turnIndex: 1 - turnIndexBeforeMove}};
+		if(turnIndex !== 1 - turnIndexBeforeMove){
+			throw new Error("current Index doesn't match!");
+		}
 	}
 	
 	if (isOneStepMove(oldrow,oldcol,row,col)===true){
 		console.log("single movement");
-		if(noWinner){
-			firstOperation = {setTurn: {turnIndex: 1 - turnIndexBeforeMove}};
-		}
 		return [firstOperation,
             {set: {key: 'board', value: boardAfterMove}},
-            {set: {key: 'delta', value: {oldrow: oldrow, oldcol: oldcol, row: row, col: col}}},
-            chain_1,
-            chain_2];
+            {set: {key: 'delta', value: {oldrow: oldrow, oldcol: oldcol, row: row, col: col}}}];
 	}
-	else if(isMultiStepMoves(oldrow,oldcol,row,col,boardBeforeMove)===true){
+	if(isMultiStepMoves(oldrow,oldcol,row,col,boardBeforeMove)===true){
 		console.log("multiple movements");
-		if(noWinner){
-			if(chain_2.set.value.length===2){
-				firstOperation = {setTurn: {turnIndex: 1-turnIndexBeforeMove}};
-			}else{
-				firstOperation = {setTurn: {turnIndex: 1-turnIndexBeforeMove}};
-			}
-		}
 		return [firstOperation,
             {set: {key: 'board', value: boardAfterMove}},
-            {set: {key: 'delta', value: {oldrow: oldrow, oldcol: oldcol, row: row, col: col}}},
-            chain_1,
-            chain_2];
+            {set: {key: 'delta', value: {oldrow: oldrow, oldcol: oldcol, row: row, col: col}}}];
 	}
 	else{
 		console.log("illegal move!");
@@ -272,54 +224,35 @@ function createMove(oldrow,oldcol,row,col,turnIndexBeforeMove,boardBeforeMove){
 	} 	
 }
 
-function getInitialBoard() {
-    return [
-		['','','','','','','','','','','','','','',''],
-		['','','','','','a','','','','','','','','',''],
-		['','','','','','a','a','','','','','','','',''],
-		['','','','','','a','a','a','','','','','','',''],
-		['','','','','','a','a','a','a','','','','','','','','',''],
-		['','O','O','O','O','a','a','a','a','a','a','a','a','a',''],
-		['','','O','O','O','a','a','a','a','a','a','a','a','a',''],
-		['','','','O','O','a','a','a','a','a','a','a','a','a',''],
-		['','','','','O','a','a','a','a','a','a','a','a','a',''],
-		['','','','','','a','a','a','a','a','a','a','a','a',''],
-		['','','','','','a','a','a','a','a','a','a','a','a','X',''],
-		['','','','','','a','a','a','a','a','a','a','a','a','X','X',''],
-		['','','','','','a','a','a','a','a','a','a','a','a','X','X','X',''],
-		['','','','','','a','a','a','a','a','a','a','a','a','X','X','X','X',''],
-		['','','','','','','','','','','a','a','a','a','','','','','','','',''],
-		['','','','','','','','','','','','a','a','a',''],
-		['','','','','','','','','','','','','a','a',''],
-		['','','','','','','','','','','','','','a',''],
-		['','','','','','','','','','','','','','','']
-		];
-  }
-
-// To show this example Moves through $animate, additional
-// verifications are needed in that problems with turnIndex
 function getExampleMoves(initialTurnIndex, initialState, arrayOfRowColSets){
 	var exampleMove = [];
 	var state = initialState;
 	var turnIndex = initialTurnIndex;
 	for(var i=0; i<arrayOfRowColSets.length; i++){
 		var rowColSets = arrayOfRowColSets[i];
-		var move = createMove(rowColSets.oldrow,rowColSets.oldcol,rowColSets.row, rowColSets.col,turnIndex,state.board);
+		var move = createMove(rowColSets.oldrow,rowColSets.oldcol,rowColSets.row, rowColSets.col,turnIndex,state.board,1-turnIndex);
 		var stateAfterMove = {board : move[1].set.value, delta : move[2].set.value};
 		exampleMove.push({
 			stateBeforeMove: state,
         	stateAfterMove: stateAfterMove,
         	turnIndexBeforeMove: turnIndex,
-        	//turnIndexAfterMove: 1 - turnIndex,
+        	turnIndexAfterMove: 1 - turnIndex,
         	move: move,
         	comment: {en: rowColSets.comment}
 		});
 		state = stateAfterMove;
-		turnIndex = move[0].setTurn.turnIndex;
+		turnIndex = 1 - turnIndex;
 	}
 	return exampleMove;	
 }
 
+/*
+	I choose to skip the getRiddle() function in that it's trivial for this specific chinese checker game.
+	The basic strategy is simple: one should make move towards the opponsite corner as much as possible in
+	ervry turn, ie, the more distance you make per turn the faster you reach your goal. This tactic is well
+	embeded in the 70+ turns ExampleGame as below. One can check the corresponding comment to learn necessary
+	information.
+*/
 function getExampleGame(){
 	return getExampleMoves(0, {}, [
 		{oldrow: 6, oldcol: 4, row: 6, col: 5, comment: "First player usually might move a topmost piece one step towards its opposite corner"},
@@ -394,15 +327,15 @@ function getExampleGame(){
 	]);
 }
 
-// The platform will use isMoveOk to check validation
-// Make sure every thing passing to platform is correct
-// For long jump movement, create board and state step
-// by step according to chain value before send to platform
+
 function isMoveOk(params){
 	try{
 		var move = params.move;
+		var winflag = move[0].endMatch === undefined? false : true;
 		var turnIndexBeforeMove = params.turnIndexBeforeMove; 
-    	var stateBeforeMove = params.stateBeforeMove;    	
+    	var stateBeforeMove = params.stateBeforeMove;
+    	var turnIndex = winflag === false? move[0].setTurn.turnIndex : 1-turnIndexBeforeMove;
+    	
     	var deltaValue = move[2].set.value;
     	var oldrow = deltaValue.oldrow;
       	var oldcol = deltaValue.oldcol;
@@ -411,7 +344,7 @@ function isMoveOk(params){
       	var boardBeforeMove = stateBeforeMove.board;
       	var boardAfterMove = move[1].set.value;
       	
-		var expectedMove = createMove(oldrow,oldcol,row,col,turnIndexBeforeMove,boardBeforeMove);
+		var expectedMove = createMove(oldrow,oldcol,row,col,turnIndexBeforeMove,boardBeforeMove,turnIndex);
 		if(!isEqual(move[1], expectedMove[1]) || !isEqual(move[2], expectedMove[2])){
 			return false;
 		}
@@ -420,237 +353,19 @@ function isMoveOk(params){
 	}
 	return true;
   }
+/*
+var receiveMoves = getExampleGame();
+for(var i=0; i<receiveMoves.length; i++){
+	console.log(JSON.stringify(receiveMoves[i].stateAfterMove));
+	console.log(receiveMoves[i].comment.en);
+}
+*/
   
-  /**
-   * Returns the move that the computer player should do for the given board.
-   * The computer will play in a random empty cell in the board.
-   */
-  var members = [];
-  var possibleOutcomes = [];
-  var targets = [[[5,4],[6,4],[7,4],[8,4]],
-      			 [[5,3],[6,3],[7,3]],
-      			 [[5,2],[6,2]],
-      			 [[5,1]]
-      			];
-  var tar_row=0;
-  var tar_col=0;
-  var index = 1;   // look forward 1 steps
-  
-  function isMember(row,col,members){
-  	var i;
-  	for(i=0; i<members.length; i++){
-  		if(members[i][0]===row && members[i][1]===col){
-  			return true;
-  		}
-  	}
-  	return false;
-  }
-  
-  function getTargets(){  	
-  	var cur_tar_line = targets[targets.length-1];
-  	var tempR = Math.floor(Math.random() * cur_tar_line.length);
-    tar_row = cur_tar_line[tempR][0];
-    tar_col = cur_tar_line[tempR][1];
-  	cur_tar_line.splice(tempR, 1);
-  	if(cur_tar_line.length === 0){
-  		targets.pop();
-  	}
-  	if(targets.length===0){
-  		return false;
-  	}else{
-  		return true;
-  	}
-  }  
-  
-  function getTargetsIn(myTargets){
-  	var cur_tar_line = myTargets[myTargets.length-1];
-  	var tempR = Math.floor(Math.random() * cur_tar_line.length);
-    var tar_row = cur_tar_line[tempR][0];
-    var tar_col = cur_tar_line[tempR][1];
-  	cur_tar_line.splice(tempR, 1);
-  	if(cur_tar_line.length === 0){
-  		myTargets.pop();
-  	}
-  	if(myTargets.length===0){
-  		return {flag:false, value:[tar_row, tar_col]};
-  	}else{
-  		return {flag:true, value:[tar_row, tar_col]};
-  	}
-  }
-  
-  function thinkThreeSteps(mymove, tar_row, tar_col,targets, member, myboard, index){
-  	  if(targets.length === 0){
-  	  	return {distance: 0};
-  	  }
-      var i, j;
-      var row = tar_row;
-      var col = tar_col;
-      var curIndex = index - 1;
-      var myTargets = angular.copy(targets);
-      var myMembers = angular.copy(member);
-      var curboard = angular.copy(myboard);
-      
-      while(1){
-      	if(row===0 && col===0){
-      		var results = getTargetsIn(myTargets);
-      		row = results.value[0];
-      		col = results.value[1];
-      	}
-      	if(myboard[row][col] === 'X'){
-      		myMembers.push([row,col]);
-      		row=0;
-      		col=0;
-      	}else{
-      		break;
-      	}
-      }
-      
-      if(curIndex === 0){
-      		var possibleMoves = [];
-	      	for (i = 1; i < 19; i++) {
-	        for (j = 1; j < curboard[i].length; j++) {
-	        	
-	        	if(curboard[i][j]==='X'){
-	        		if(isMember(i,j,myMembers)){
-	        			continue;
-	        		}
-	        		var r,c;
-	        		var dist = 0;
-	        		var tempD,tempMove;
-	        		 for (r = 1; r < 19; r++) {
-	        			for (c = 1; c < curboard[i].length; c++) {
-	        				try{
-	        					tempMove = createMove(i,j,r,c,1,curboard);
-	        					tempD = Math.abs(c-j)*0.2 - Math.abs(c-col)*0.5 + Math.abs(j-col)*1.0 - Math.abs(r-row)*0.7;
-	        					if(dist === 0){
-	        						dist = tempD;
-	        						possibleMoves.push({distance: dist, value: [[i,j],[r,c]], move: tempMove});
-	        					}
-	        					if(tempD > dist){
-	        						dist = tempD;   // Math value will not change but obj does when passing values
-	        						possibleMoves.pop();
-	        						possibleMoves.push({distance: dist, value: [[i,j],[r,c]], move: tempMove});
-	        					}
-	        				}catch(e){
-	        					// illegal move yo~
-	        				}
-	        			}
-	        		}	
-	        	}
-	        }
-	      }
-	      //var randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-	      var bestMove = possibleMoves[0];
-	      for(i=0; i<possibleMoves.length; i++){
-	      	if(bestMove.distance < possibleMoves[i].distance){
-	      		bestMove = possibleMoves[i];
-	      	}
-	      }
-	      return bestMove;     	    	
-      	
-      }else{
-      	     	
-      	for (i = 1; i < 19; i++) {
-	        for (j = 1; j < curboard[i].length; j++) {
-	        	if(curboard[i][j]==='X'){
-	        		if(isMember(i,j,myMembers)){
-	        			continue;
-	        		}
-	        		
-	        		var r,c;
-	        		var dist = 0;
-	        		var tempD,tempMove;
-	        		 for (r = 1; r < 19; r++) {
-	        			for (c = 1; c < curboard[i].length; c++) {
-	        				try{
-	        					tempMove = createMove(i,j,r,c,1,curboard);
-	        					tempD = Math.abs(c-j)*0.2 - Math.abs(c-col)*0.5 + Math.abs(j-col)*1.0 - Math.abs(r-row)*0.7;	        					
-	        				}catch(e){
-	        					// illegal move yo~
-	        					tempD = -100;
-	        				}
-	        				if(tempD === -100){
-	        					continue;
-	        				}
-	        				var newboard = angular.copy(curboard);
-	        				newboard[i][j] = 'a';
-	        				newboard[r][c] = 'X';
-	        				if(r===row && c===col){
-	      						var newMembers = angular.copy(myMembers);
-	      						newMembers.push([row, col]);
-	      						var newrow = 0;
-	      						var newcol = 0;
-	     					 }else{
-	     					 	var newMembers = angular.copy(myMembers);
-	      						var newrow = row;
-	      						var newcol = col;
-	     					 }
-	     					 var myNewMove = angular.copy(mymove);
-	     					 if(myNewMove.distance === undefined){
-	     					 	myNewMove = {distance: tempD, value: [[i,j],[r,c]], move: tempMove};
-	     					 }else{
-	     					 	myNewMove.distance += tempD;
-	     					 }
-	     					 var childResult = thinkThreeSteps(myNewMove, newrow, newcol, myTargets, newMembers, newboard, curIndex);
-	        				 if(curIndex === 1){
-	        				 	myNewMove.distance += childResult.distance;
-	        				 	possibleOutcomes.push(myNewMove);
-	        				 }	
-	        				 //return true;        					        					        			
-	        			}
-	        		}
-	        	}	        	
-	        }
-	    }
-
-      }
-      
-  }
-    
-  function createComputerMove(board, turnIndexBeforeMove) {
-  	possibleOutcomes = [];
-  	  while(1){
-      	if(tar_row===0 && tar_col===0){
-      		getTargets();
-      	}
-      	if(board[tar_row][tar_col] === 'X'){
-      		members.push([tar_row,tar_col]);
-      		tar_row=0;
-      		tar_col=0;
-      	}else{
-      		break;
-      	}
-      }
-      var mymove = {};
-      var bestMove = thinkThreeSteps(mymove, tar_row, tar_col,targets, members, board, index);
-      if(index!=1){
-      	var bestMove = possibleOutcomes[0];
-      	var i;
-		for(i=0; i<possibleOutcomes.length; i++){
-		   if(bestMove.distance < possibleOutcomes[i].distance){
-		     	bestMove = possibleOutcomes[i];
-		   }
-		}
-      }
-      
-	  if(bestMove.value[1][0] === tar_row && bestMove.value[1][1] === tar_col){
-	  	members.push([tar_row,tar_col]);
-	  	tar_row = 0;
-	  	tar_col = 0;
-	  }
-      return bestMove.move;
-  }
-    
 //return isMoveOk;
-//return {isMoveOk: isMoveOk, getExampleGame: getExampleGame};
+return {isMoveOk: isMoveOk, getExampleGame: getExampleGame};
 
-	this.getInitialBoard = getInitialBoard;
- 	this.createMove = createMove;
-  	this.isMoveOk = isMoveOk;
-  	this.getExampleGame = getExampleGame;
-  	this.createComputerMove = createComputerMove;
+})();
 
-});
 
 
 
