@@ -9,7 +9,7 @@ angular.module('myApp',['ngTouch','ngDraggable'])
     moveAudio.load();
     //changed the of 8.8.16 from 917
         $scope.map = [
-            
+
             [[0,0],[0,0],[0,0],[0,0],[0,0],[3,13],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
             [[0,0],[0,0],[0,0],[0,0],[0,0],[4,13],[3.5,12],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
             [[0,0],[0,0],[0,0],[0,0],[0,0],[5,13],[4.5,12],[4,11],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
@@ -204,7 +204,7 @@ angular.module('myApp',['ngTouch','ngDraggable'])
     	var possibleMoves = [];
     	var i, j;
     	var tempMove;
-    	for(i=1; i<19; i++){
+    	for(i=1; i<8; i++){
     		for(j=1; j<$scope.board[i].length; j++){
     			try{
     				tempMove = gameLogic.createMove(row, col, i, j, $scope.turnIndex, $scope.board);
@@ -227,7 +227,7 @@ angular.module('myApp',['ngTouch','ngDraggable'])
     	var possibleMoves = [];
     	var i, j;
     	var tempMove;
-    	for(i=0; i<19; i++){
+    	for(i=0; i<8; i++){
     		for(j=0; j<$scope.boolboard[i].length; j++){
     			$scope.boolboard[i][j] = false;
     			try{
