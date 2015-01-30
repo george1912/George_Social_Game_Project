@@ -8,6 +8,33 @@ angular.module('myApp',['ngTouch','ngDraggable'])
         var moveAudio = new Audio('audio/move.wav');
         moveAudio.load();
 
+//adding scope nonsense!
+        $scope.map = [
+            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+            [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
+        ];
+
+
+
+
+        //adding mapping
+        $scope.newposition = 50;
+        $scope.newpositionTop = 50;
+        $scope.setPagePosition = function(index, parentIndex) {
+            $scope.newposition =  $scope.map[parentIndex][index][0] * 20.1 - 31 + 'px'
+            return $scope.newposition;
+        }
+        $scope.setPagePositionTop = function(parentIndex, index){
+            $scope.newpositionTop = $scope.map[parentIndex][index][1] * 10 -9 + 'px'
+            return $scope.newpositionTop;
+        }
+        //adding mapping
 
 
         function resetAll(){
