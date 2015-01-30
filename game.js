@@ -34,6 +34,7 @@ angular.module('myApp',['ngTouch','ngDraggable'])
     $scope.newpositionTop = 0;
     $scope.setPagePosition = function(index, parentIndex) {
         //controlls placement of checkers
+        //adding test
         $scope.newposition =  $scope.map[parentIndex][index][0] * 400.2 - 630 + 'px'
         return $scope.newposition;
     }
