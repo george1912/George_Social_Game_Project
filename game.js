@@ -27,19 +27,19 @@ angular.module('myApp',['ngTouch','ngDraggable'])
 		[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[14,7],[13.5,6],[13,5],[0,0]],
 		[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[14.5,6],[14,5],[0,0]],
 		[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[15,5],[0,0]],
-		[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+		[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
 		];
 	//having new position
-	$scope.newposition = 0;
-    $scope.newpositionTop = 0;
+	$scope.newposition = 50;
+    $scope.newpositionTop = 50;
     $scope.setPagePosition = function(index, parentIndex) {
         //controlls placement of checkers
         //adding test
-        $scope.newposition =  $scope.map[parentIndex][index][0] * 400.2 - 630 + 'px'
+        $scope.newposition =  $scope.map[parentIndex][index][0] * 40.2 - 63 + 'px'
         return $scope.newposition;
     }
     $scope.setPagePositionTop = function(parentIndex, index){
-        $scope.newpositionTop = $scope.map[parentIndex][index][1] * 350.6 -190 + 'px'
+        $scope.newpositionTop = $scope.map[parentIndex][index][1] * 35.6 -19 + 'px'
         return $scope.newpositionTop;
     }
     
