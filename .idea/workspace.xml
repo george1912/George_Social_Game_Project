@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d721080c-216d-470b-a547-aa51d8c17a0c" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/GoodBoard.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/game.html?test.html" afterPath="$PROJECT_DIR$/game.html?test.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="d721080c-216d-470b-a547-aa51d8c17a0c" name="Default" comment="" />
     <ignored path="George_Social_Game_Project.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -70,8 +66,8 @@
       <file leaf-file-name="game.html?test.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/game.html?test.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3227459" vertical-offset="0" max-vertical-offset="976">
-              <caret line="21" column="115" selection-start-line="21" selection-start-column="115" selection-end-line="21" selection-end-column="115" />
+            <state vertical-scroll-proportion="0.4456967" vertical-offset="0" max-vertical-offset="976">
+              <caret line="29" column="17" selection-start-line="29" selection-start-column="17" selection-end-line="29" selection-end-column="17" />
               <folding>
                 <element signature="n#style#0;n#img#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -422,8 +418,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/game.html?test.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3227459" vertical-offset="0" max-vertical-offset="976">
-          <caret line="21" column="115" selection-start-line="21" selection-start-column="115" selection-end-line="21" selection-end-column="115" />
+        <state vertical-scroll-proportion="0.4456967" vertical-offset="0" max-vertical-offset="976">
+          <caret line="29" column="17" selection-start-line="29" selection-start-column="17" selection-end-line="29" selection-end-column="17" />
           <folding>
             <element signature="n#style#0;n#img#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
