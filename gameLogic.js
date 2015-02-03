@@ -112,7 +112,8 @@ angular.module('myApp').service('gameLogic',function(){
 
         if( (turnindex === 0 && row===oldrow+1 && col===oldcol+1)){
             console.log("Fox is moving ACTUALLY backwards to the right");
-            //
+
+            //added chain to each trun
             chain_1 = {set: {key: 'isChain', value: false}};
             chain_2 = {set: {key:'chainValue',value: [[oldrow,oldcol],[row,col]]}};
             return true;

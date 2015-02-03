@@ -12,26 +12,26 @@ angular.module('myApp',['ngTouch','ngDraggable'])
         $scope.map = [
             [[0,0],[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7]],
             [[1,0],[1,1],[1,2],[1,3],[1,4],[1,5],[1,6],[1,7]],
-            [[2,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-            [[3,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-            [[4,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-            [[5,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-            [[6,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
-            [[7,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
+            [[2,0],[2,1],[2,2],[2,3],[2,4],[2,5],[2,6],[2,7]],
+            [[3,0],[3,1],[3,2],[3,3],[3,4],[3,5],[3,6],[3,7]],
+            [[4,0],[4,1],[4,2],[4,3],[4,4],[4,5],[4,5],[4,7]],
+            [[5,0],[5,1],[5,2],[5,3],[5,4],[5,5],[5,6],[5,7]],
+            [[6,0],[5,1],[6,2],[6,3],[6,4],[6,5],[6,6],[6,7]],
+            [[7,0],[7,1],[7,2],[7,3],[7,4],[7,5],[7,6],[7,7]]
         ];
 
 
 
 
         //adding mapping
-        $scope.newposition = 50;
-        $scope.newpositionTop = 50;
+        $scope.newposition = 0;
+        $scope.newpositionTop = 0;
         $scope.setPagePosition = function(index, parentIndex) {
-            $scope.newposition =  $scope.map[parentIndex][index][0] * 20.1 - 31 + 'px'
+            $scope.newposition =  $scope.map[parentIndex][index][0]
             return $scope.newposition;
         }
         $scope.setPagePositionTop = function(parentIndex, index){
-            $scope.newpositionTop = $scope.map[parentIndex][index][1] * 10 -9 + 'px'
+            $scope.newpositionTop = $scope.map[parentIndex][index][1]
             return $scope.newpositionTop;
         }
         //adding mapping
@@ -224,7 +224,7 @@ angular.module('myApp',['ngTouch','ngDraggable'])
         }
 
 
-        // pay attantion to WIN condition: endMatch
+        // pay attention to WIN condition: endMatch
         function makeGameMove(isDnD){
 
             move = angular.copy(moveOri);
