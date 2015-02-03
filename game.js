@@ -24,14 +24,14 @@ angular.module('myApp',['ngTouch','ngDraggable'])
 
 
         //adding mapping
-        $scope.newposition = 0;
-        $scope.newpositionTop = 0;
+        $scope.newposition = 50;
+        $scope.newpositionTop = 50;
         $scope.setPagePosition = function(index, parentIndex) {
-            $scope.newposition =  $scope.map[parentIndex][index][0]
+            $scope.newposition =  $scope.map[parentIndex][index][0] * 10 - 30 + 'px'
             return $scope.newposition;
         }
         $scope.setPagePositionTop = function(parentIndex, index){
-            $scope.newpositionTop = $scope.map[parentIndex][index][1]
+            $scope.newpositionTop = $scope.map[parentIndex][index][1] * 10 - 30 + 'px'
             return $scope.newpositionTop;
         }
         //adding mapping
